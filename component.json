@@ -1,0 +1,11 @@
+{
+  "name": "streamhub-ticker",
+  "version": "1.0.0",
+  "main": [
+    "./main.css",
+    "./main.js"
+  ],
+  "dependencies": {
+    "streamhub-backbone": "*"
+  }
+}

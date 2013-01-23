@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>StreamHub Backbone Example</title>
+    <script src="components/requirejs/require.js"
+            type="text/javascript"></script>
+    <script src="http://zor.t402.livefyre.com/wjs/v3.0.sdk/javascripts/livefyre.js"></script>
+    <script type="text/javascript">
+    // Require.js Config
+    require.config({
+      paths: {
+        jquery: 'components/jquery/jquery',
+        underscore: 'components/underscore/underscore',
+        backbone: 'components/backbone/backbone',
+        "streamhub-ticker": "main",
+        mustache: 'components/mustache/mustache',
+        text: 'components/requirejs-text/text'
+      },
+      packages: [{
+        name: 'streamhub-backbone',
+        location: 'components/streamhub-backbone'
+      }],
+      shim: {
+        backbone: {
+            deps: ['underscore', 'jquery'],
+            exports: 'Backbone'
+        },
+        underscore: {
+            exports: '_'
+        }
+      },
+      urlArgs: "_=" +  (new Date()).getTime()
+    });
+    </script>
+    <link rel="stylesheet" type="text/css" href="components/streamhub-backbone/main.css">
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <style>
+    body {
+        color: #222;
+        font: 14px sans-serif;
+        line-height: 1.25;
+        background-color: #eee;
+    }
+    .hub-item {
+        background-color: white;
+        padding-left: 0.5em;
+        padding-right: 0.5em;
+        margin: .25em;
+        cursor: pointer;
+    }
+    .sort-links a, .filter-links a {
+        cursor: pointer;
+        text-decoration: underline;
+    }
+    </style>
+</head>
+<body>
+  <div id="container">
+    <h1>StreamHub Ticker</h1>
+    <div id="example"></div>
+  </div>
+  <script type="text/javascript">
+	// Now to load the example
+	require(['streamhub-backbone', 'streamhub-ticker'],
+	function(Hub, View){
+	    function loadApp (sdk) {
+	        var app = window.app = new Hub({
+	            sdk: sdk,
+	            collection: {
+	                siteId: "303827",
+	                articleId: "scoreboard_demo_0"
+	            },
+	            view: View,
+	            el: document.getElementById("example")
+	        }).start();
+	    }
+	    fyre.conv.load({
+	        network: "labs-t402.fyre.co"
+	    }, [{app: 'sdk'}], loadApp);
+	});
+  </script>
+</body>
+</html>
