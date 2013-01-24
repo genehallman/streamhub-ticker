@@ -84,6 +84,7 @@
    	<div id="example"></div>
    	</div>
   </div>
+  <button id='pauseButton'>Pause</button><br/>
   <div>
   	User token: <br/><input id='userToken'></input><br/>
   	Message: <br/><input id='newMessage' /><br/>
@@ -115,6 +116,11 @@
 		    		$('#status').text('Failed: ' + JSON.stringify(arguments));
 		    	});
 		    	return false;
+		    });
+		    
+		    $('#pauseButton').click(function() {
+		    	app._view.paused = !app._view.paused;
+		    	$('#pauseButton').text(app._view.paused ? 'Start': 'Pause');
 		    });
 	    }
 

@@ -14,6 +14,7 @@ var TickerView = Backbone.View.extend(
         this._sourceOpts = opts.sources || {};
         this.$el.addClass(this.className);
         this.$el.hide();
+        window.el = this.$el;
         this.lastEventId = 0;
 
         this.collection.on('add', this._insertItem, this);
@@ -62,15 +63,26 @@ TickerView.prototype._insertItem = function (item, opts) {
 
     newItem
       .addClass('hub-item')
-      .attr('data-hub-contentId', json.id)
-      .hide();
+      .attr('data-hub-contentId', json.id);
 
     if (this.collection._initialized) {
+        var origScrollWidth = this.$el[0].scrollWidth; 
         this.$el.prepend(newItem);
+        var newScrollWidth = this.$el[0].scrollWidth;
+        var diff = newScrollWidth - origScrollWidth;
+        console.log(origScrollWidth, newScrollWidth, diff, this.$el.scrollLeft());
+
+        this.$el.scrollLeft(this.$el.scrollLeft() + newScrollWidth - origScrollWidth);
+
+        if (!this.paused) {
+        	this.$el.animate({
+    			scrollLeft: this.$el.scrollLeft() - diff
+ 			}, 500);
+        }
     } else {
         this.$el.append(newItem);
     }
-    return newItem.show("slide", {direction:'left'});
+    return newItem;
 };
 
 return TickerView;
