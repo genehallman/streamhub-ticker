@@ -10,6 +10,7 @@
     require.config({
       paths: {
         jquery: 'components/jquery/jquery',
+        jqueryui: 'components/jquery-ui/ui/jquery-ui.custom',
         underscore: 'components/underscore/underscore',
         backbone: 'components/backbone/backbone',
         "streamhub-ticker": "main",
@@ -47,17 +48,34 @@
         padding-right: 0.5em;
         margin: .25em;
         cursor: pointer;
+        width:100px;
+        height:100px;
+        display:inline-block;
+        vertical-align:top;
+        white-space:normal;
     }
     .sort-links a, .filter-links a {
         cursor: pointer;
         text-decoration: underline;
+    }
+    #example {
+    	white-space:nowrap;
+    	height:115px;
+    	overflow-x:scroll;
+    	overflow-y:hidden;
+    }
+    #tickerHolder {
+    	height:100px;
+    	overflow:hidden;
     }
     </style>
 </head>
 <body>
   <div id="container">
     <h1>StreamHub Ticker</h1>
-    <div id="example"></div>
+	<div id="tickerHolder">
+   	<div id="example"></div>
+   	</div>
   </div>
   <script type="text/javascript">
 	// Now to load the example

@@ -5,6 +5,7 @@ var Backbone = require('backbone'),
     ContentView = require('streamhub-backbone/views/ContentView'),
     sources = require('streamhub-backbone/const/sources'),
     _ = require('underscore');
+    $ui = require('jqueryui');
 
 var TickerView = Backbone.View.extend(
 {
@@ -61,14 +62,20 @@ TickerView.prototype._insertItem = function (item, opts) {
 
     newItem
       .addClass('hub-item')
-      .attr('data-hub-contentId', json.id);
+      .attr('data-hub-contentId', json.id)
+      .hide();
 
     if (this.collection._initialized) {
+        console.log(this.$el.width());
         this.$el.prepend(newItem);
+        console.log(newItem.width());
     } else {
         this.$el.append(newItem);
     }
-    return newItem;
+    return newItem.show("slide", {direction:'left'}, function() {
+    	console.log(self.$el.width());
+    	console.log(newItem.width());
+    });
 };
 
 return TickerView;
