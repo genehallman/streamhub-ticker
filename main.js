@@ -66,16 +66,11 @@ TickerView.prototype._insertItem = function (item, opts) {
       .hide();
 
     if (this.collection._initialized) {
-        console.log(this.$el.width());
         this.$el.prepend(newItem);
-        console.log(newItem.width());
     } else {
         this.$el.append(newItem);
     }
-    return newItem.show("slide", {direction:'left'}, function() {
-    	console.log(self.$el.width());
-    	console.log(newItem.width());
-    });
+    return newItem.show("slide", {direction:'left'});
 };
 
 return TickerView;
