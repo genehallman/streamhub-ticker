@@ -1,10 +1,7 @@
 define(function(require) {
 var Backbone = require('backbone'),
-    Mustache = require('mustache'),
     ContentView = require('streamhub-backbone/views/ContentView'),
-    FeedTickerView = require('streamhub-ticker/views/FeedTickerView'),
-    _ = require('underscore');
-    $ui = require('jqueryui');
+    FeedTickerView = require('streamhub-ticker/views/FeedTickerView');
 
 var TickerView = Backbone.View.extend(
 {

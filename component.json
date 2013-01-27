@@ -6,7 +6,6 @@
     "./main.js"
   ],
   "dependencies": {
-    "streamhub-backbone": "*",
-    "jquery-ui": "~1.10.0"
+    "streamhub-backbone": "*"
   }
 }
