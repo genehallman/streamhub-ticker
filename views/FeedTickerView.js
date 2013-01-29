@@ -43,7 +43,8 @@ FeedTickerView.prototype._insertItem = function (item, col) {
 FeedTickerView.prototype._animateAdd = function(itemEl, col, index) {
 	var prev = col.at(index-1);
 	var next = col.at(index+1);
-
+	var self = this;
+	
 	var origScroll = this.itemHolder[0].scrollHeight;
     if (index == 0) {
     	this.itemHolder.append(itemEl);
@@ -58,7 +59,7 @@ FeedTickerView.prototype._animateAdd = function(itemEl, col, index) {
 	this.itemHolder.animate({
 		scrollTop: 0
 	}, 500, function() {
-		this.itemHolder.scrollTop(0);
+		self.itemHolder.scrollTop(0);
 	});
 };
 
