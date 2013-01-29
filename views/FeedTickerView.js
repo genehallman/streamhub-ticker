@@ -57,7 +57,9 @@ FeedTickerView.prototype._animateAdd = function(itemEl, col, index) {
     this.itemHolder.scrollTop(diff);
 	this.itemHolder.animate({
 		scrollTop: 0
-	}, 500);
+	}, 500, function() {
+		this.itemHolder.scrollTop(0);
+	});
 };
 
 return FeedTickerView;
