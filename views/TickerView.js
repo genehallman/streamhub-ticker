@@ -35,7 +35,7 @@ TickerView.prototype._insertItem = function (item, col) {
     var json = item.toJSON();
     
     if (!json.author) { return; }
-
+    
     itemEl
       .addClass('hub-item')
       .attr('data-hub-contentId', json.id)
@@ -43,6 +43,7 @@ TickerView.prototype._insertItem = function (item, col) {
       
     feedEl.addClass('item-feed-view');
     contentEl.addClass('item-content-view');
+    contentEl.addClass($(item.get('bodyHtml')).attr('class'));
     
     var contentView = new ContentView({
         model: item,
