@@ -7,9 +7,14 @@ var FeedTickerView = Backbone.View.extend(
     initialize: function (opts) {
         this.$el.addClass(this.className);
         this.$el.hide();
+        
+        var outerHolder = $(document.createElement('div'));
+        outerHolder.addClass('hub-feed-item-holder')
+        
         this.itemHolder = $(document.createElement('div'));
-        this.itemHolder.addClass('hub-feed-item-holder')
-        this.$el.append(this.itemHolder);
+        this.itemHolder.addClass('hub-feed-item-inner-holder')
+        
+        this.$el.append(outerHolder.append(this.itemHolder));
         
         this.collection.on('add', this._insertItem, this);
     },
@@ -52,6 +57,7 @@ FeedTickerView.prototype._animateAdd = function(itemEl, col, index) {
     	prevEl = this.itemHolder.find('.hub-feed-item[data-hub-contentid=' + prev.get('id') + "]");
     	itemEl.insertBefore(prevEl);
     }
+    this.itemHolder.parent().addClass('nonEmpty');
     var newScroll = this.itemHolder[0].scrollHeight;
     var diff = newScroll - origScroll;
         
