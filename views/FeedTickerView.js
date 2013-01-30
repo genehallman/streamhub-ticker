@@ -54,7 +54,7 @@ FeedTickerView.prototype._animateAdd = function(itemEl, col, index) {
     if (index == 0) {
     	this.itemHolder.append(itemEl);
     } else {
-    	prevEl = this.itemHolder.find('.hub-feed-item[data-hub-contentid=' + prev.get('id') + "]");
+    	prevEl = this.itemHolder.find('.hub-feed-item[data-hub-contentid="' + prev.get('id') + '"]');
     	itemEl.insertBefore(prevEl);
     }
     this.itemHolder.parent().addClass('nonEmpty');
