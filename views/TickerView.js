@@ -56,8 +56,8 @@ TickerView.prototype._insertItem = function (item, col) {
     subCol.comparator = function(i) { return i.get('createdAt');};  
 
     var feedView = new FeedTickerView({
-    	collection: subCol,
-    	el: feedEl,
+        collection: subCol,
+        el: feedEl,
         sources: this.sources
     });
     feedView.render();
