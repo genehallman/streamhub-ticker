@@ -50,24 +50,26 @@ FeedTickerView.prototype._animateAdd = function(itemEl, col, index) {
 	var prev = col.at(index-1);
 	var next = col.at(index+1);
 	var self = this;
+	itemEl.hide();
 	
-	var origScroll = this.itemHolder[0].scrollHeight;
+	var origScroll = this.itemHolder.parent()[0].scrollHeight;
     if (index == 0) {
     	this.itemHolder.append(itemEl);
+    	itemEl.slideDown();
     } else {
     	prevEl = this.itemHolder.find('.hub-feed-item[data-hub-contentid="' + prev.get('id') + '"]');
-    	itemEl.insertBefore(prevEl);
+    	itemEl.insertBefore(prevEl).slideDown();
     }
     this.itemHolder.parent().addClass('nonEmpty');
-    var newScroll = this.itemHolder[0].scrollHeight;
+    /*var newScroll = this.itemHolder.parent()[0].scrollHeight;
     var diff = newScroll - origScroll;
         
 	if (this.collection._initialized) {
-	    this.itemHolder.scrollTop(diff);
-		this.itemHolder.animate({
+	    this.itemHolder.parent().scrollTop(diff);
+		this.itemHolder.parent().animate({
 			scrollTop: 0
 		}, 500);
-	}
+	}*/
 };
 
 return FeedTickerView;
