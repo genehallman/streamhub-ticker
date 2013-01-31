@@ -38,12 +38,12 @@ TickerView.prototype._insertItem = function (item, col) {
     
     itemEl
       .addClass('hub-item')
-      .attr('data-hub-contentId', json.id)
+      .attr('data-hub-contentid', json.id)
       .attr('data-hub-source-id', item.get('sourceId'));
       
     feedEl.addClass('item-feed-view');
     contentEl.addClass('item-content-view');
-    contentEl.addClass($(item.get('bodyHtml')).attr('class'));
+    contentEl.addClass($('<div>' + item.get('bodyHtml') + '</div>').children().first().attr('class'));
     
     var contentView = new ContentView({
         model: item,
@@ -71,15 +71,15 @@ TickerView.prototype._insertItem = function (item, col) {
 TickerView.prototype._animateAdd = function(itemEl, col, index) {
     var prev = col.at(index-1);
     var next = col.at(index+1);
-
-    var origScrollWidth = this.$el[0].scrollWidth;
+    //var origScrollWidth = this.$el[0].scrollWidth;
     if (index == 0) {
         this.$el.append(itemEl);
     } else {
         prevEl = this.$el.find('.hub-item[data-hub-contentid="' + prev.get('id') + '"]');
+	    if (col._initialized) { debugger;}
         itemEl.insertAfter(prevEl);
     }
-    var newScrollWidth = this.$el[0].scrollWidth;
+    /*var newScrollWidth = this.$el[0].scrollWidth;
     var diff = newScrollWidth - origScrollWidth;
 
     if (!this.paused && col._initialized) {
@@ -88,7 +88,7 @@ TickerView.prototype._animateAdd = function(itemEl, col, index) {
         }, 500);
     } else if (!col._initialized) {
         this.$el.scrollLeft(this.$el.scrollLeft() + diff);
-    }
+    }*/
 };
 
 TickerView.prototype._rebalanceFeedItems = function(item, col) {

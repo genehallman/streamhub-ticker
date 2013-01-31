@@ -17,9 +17,6 @@ var FeedTickerView = Backbone.View.extend(
         this.$el.append(outerHolder.append(this.itemHolder));
         
 		var self = this;
-        this.collection.each(function(item) {
-        	self._insertItem(item, col);
-        });
         this.collection.on('add', this._insertItem, this);
     },
     className: "hub-FeedTickerView",
