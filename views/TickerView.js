@@ -10,6 +10,8 @@ var TickerView = Backbone.View.extend(
         this.$el.hide();
         this.feedCollection = opts.feedCollection;
         this.childViews = {};
+
+        this.sources = opts.sources || {};
         
         this.collection.on('add', this._insertItem, this);
         this.collection.on('initialDataLoaded', this.render, this);
@@ -35,7 +37,7 @@ TickerView.prototype._insertItem = function (item, col) {
     var json = item.toJSON();
     
     if (!json.author) { return; }
-    
+
     itemEl
       .addClass('hub-item')
       .attr('data-hub-contentid', json.id)
@@ -55,7 +57,8 @@ TickerView.prototype._insertItem = function (item, col) {
 
     var feedView = new FeedTickerView({
         collection: subCol,
-        el: feedEl
+        el: feedEl,
+        sources: this.sources
     });
     feedView.render();
     

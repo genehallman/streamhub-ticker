@@ -1,6 +1,7 @@
 define(function(require) {
 var Backbone = require('backbone'),
-    ContentView = require('streamhub-backbone/views/ContentView');
+    ContentView = require('streamhub-backbone/views/ContentView'),
+    sources = require('streamhub-backbone/const/sources');
 
 var FeedTickerView = Backbone.View.extend(
 {
@@ -13,6 +14,10 @@ var FeedTickerView = Backbone.View.extend(
         
         this.itemHolder = $(document.createElement('div'));
         this.itemHolder.addClass('hub-feed-item-inner-holder')
+        this.$el.append(this.itemHolder);
+
+        this._contentViewOpts = opts.contentViewOptions || {};
+        this._sourceOpts = opts.sources || {};
         
         this.$el.append(outerHolder.append(this.itemHolder));
         
@@ -35,11 +40,28 @@ FeedTickerView.prototype._insertItem = function (item, col) {
       .addClass('hub-feed-item')
       .attr('data-hub-contentId', json.id)
       .attr('data-hub-source-id', item.get('sourceId'));
-    
-    var cv = new ContentView({
+
+    // Interleave configured default opts with source-specific opts
+    var self = this;
+    function _getContentViewOpts (content) {
+        var opts = {},
+            configuredOpts = _(opts).extend(self._contentViewOpts),
+            perSourceOpts;
+        if (content.get('source')==sources.TWITTER) {
+            return _(configuredOpts).extend(self._sourceOpts.twitter||{});
+        }
+        if (content.get('source')==sources.RSS) {
+            return _(configuredOpts).extend(self._sourceOpts.rss||{});
+        }
+        return configuredOpts;
+    }
+
+    // Create the ContentView so we can look at it and stuff!
+    // render it in itemEl
+    var cv = new ContentView(_.extend({
         model: item,
         el: itemEl
-    });
+    }, _getContentViewOpts(item)));
 	
 	this._animateAdd(itemEl, col, col.indexOf(item));
 	
