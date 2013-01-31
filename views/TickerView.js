@@ -164,8 +164,6 @@ TickerView.prototype._addFeedItem = function(item, col) {
 
     for (var i = 0; i < keys.length; i++) {
         if (itemCreatedAt > keys[i] && (i == keys.length - 1 || itemCreatedAt < keys[i+1])) {
-        	console.log(keys[i] + " < " + itemCreatedAt + " < " + keys[i+1] + " (" + i + "/" + keys.length + ")");
-
             var feedView = this.childViews[keys[i]].feedView;
             feedView.collection.add(item);
             break;
