@@ -41,6 +41,7 @@ TickerView.prototype._insertItem = function (item, col) {
     itemEl
       .addClass('hub-item')
       .attr('data-hub-contentid', json.id)
+      .attr('data-hub-createdAt', item.get('createdAt'))
       .attr('data-hub-source-id', item.get('sourceId'));
       
     feedEl.addClass('item-feed-view');
@@ -66,7 +67,7 @@ TickerView.prototype._insertItem = function (item, col) {
 
     this._animateAdd(itemEl, col, col.indexOf(item));
     
-    this._rebalanceFeedItems(item, col);
+    //this._rebalanceFeedItems(item, col);
     
     return itemEl;
 };
@@ -76,10 +77,12 @@ TickerView.prototype._animateAdd = function(itemEl, col, index) {
     var next = col.at(index+1);
     var origScrollWidth = this.$el[0].scrollWidth;
 
-    /*if (index == 0) {*/
+    if (col._initialized) {
         this.$el.append(itemEl);
-    /*} else {
-        prevEl = this.$el.find('.hub-item[data-hub-contentid="' + prev.get('id') + '"]');
+    } else {
+    	this.$el.prepend(itemEl);
+    }
+    /*    prevEl = this.$el.find('.hub-item[data-hub-contentid="' + prev.get('id') + '"]');
 	    if (col._initialized) { debugger;}
         itemEl.insertAfter(prevEl);
     }*/
@@ -158,8 +161,11 @@ TickerView.prototype._addFeedItem = function(item, col) {
     if (keys.length == 0) {
         return;
     }
+
     for (var i = 0; i < keys.length; i++) {
         if (itemCreatedAt > keys[i] && (i == keys.length - 1 || itemCreatedAt < keys[i+1])) {
+        	console.log(keys[i] + " < " + itemCreatedAt + " < " + keys[i+1] + " (" + i + "/" + keys.length + ")");
+
             var feedView = this.childViews[keys[i]].feedView;
             feedView.collection.add(item);
             break;
