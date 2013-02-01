@@ -10,6 +10,7 @@ var TickerView = Backbone.View.extend(
         this.$el.hide();
         this.feedCollection = opts.feedCollection;
         this.childViews = {};
+        this.metaElement = opts.metaElement;
 
         this.sources = opts.sources || {};
         
@@ -28,26 +29,39 @@ var TickerView = Backbone.View.extend(
 });
 
 TickerView.prototype._insertItem = function (item, col) {
-    var itemEl = $(document.createElement('div'));
+    if (!item.get('author')) { return; }
+
     var feedEl = $(document.createElement('div'));
-    itemEl.append(feedEl);
+    feedEl.addClass('item-feed-view');
+
     var contentEl = $(document.createElement('div'));
+    contentEl.addClass('item-content-view');
+
+    var itemEl = $(document.createElement('div'));
+    itemEl.append(feedEl);
     itemEl.append(contentEl);
 
-    var json = item.toJSON();
-    
-    if (!json.author) { return; }
+    var itemMetaEl = $('<div>' + item.get('bodyHtml') + '</div>').find(this.metaElement);
+	var	itemMeta = {};
+	try { itemMeta = JSON.parse(itemMetaEl.text()); } catch (ex) {}
 
     itemEl
       .addClass('hub-item')
-      .attr('data-hub-contentid', json.id)
+      .attr('data-hub-contentid', item.get('id'))
       .attr('data-hub-createdAt', item.get('createdAt'))
       .attr('data-hub-source-id', item.get('sourceId'));
       
-    feedEl.addClass('item-feed-view');
-    contentEl.addClass('item-content-view');
-    contentEl.addClass($('<div>' + item.get('bodyHtml') + '</div>').children().first().attr('class'));
-    
+    if (itemMeta['eventType']) {
+    	itemEl.attr('data-hub-event-type', itemMeta['eventType']);
+    }
+    if (itemMeta['eventUrl']) {
+    	itemEl.attr('data-hub-event-url', itemMeta['eventUrl']);
+    	contentEl.css('background', 'url(' + itemMeta['eventUrl'] + ') no-repeat 0px 0px');
+    }
+    if (itemMeta['eventImportant']) {
+    	itemEl.attr('data-hub-event-important', itemMeta['eventImportant']);
+    }
+        
     var contentView = new ContentView({
         model: item,
         el: contentEl
@@ -80,10 +94,9 @@ TickerView.prototype._animateAdd = function(itemEl, col, index) {
     if (col._initialized) {
         this.$el.append(itemEl);
     } else {
-    	this.$el.prepend(itemEl);
+    	this.$el.append(itemEl);
     }
     /*    prevEl = this.$el.find('.hub-item[data-hub-contentid="' + prev.get('id') + '"]');
-	    if (col._initialized) { debugger;}
         itemEl.insertAfter(prevEl);
     }*/
     var newScrollWidth = this.$el[0].scrollWidth;
