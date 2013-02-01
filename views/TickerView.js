@@ -90,15 +90,13 @@ TickerView.prototype._animateAdd = function(itemEl, col, index) {
     var prev = col.at(index-1);
     var next = col.at(index+1);
     var origScrollWidth = this.$el[0].scrollWidth;
-
-    if (col._initialized) {
-        this.$el.append(itemEl);
-    } else {
-    	this.$el.append(itemEl);
-    }
-    /*    prevEl = this.$el.find('.hub-item[data-hub-contentid="' + prev.get('id') + '"]');
+	var prevEl = prev ? this.$el.find('.hub-item[data-hub-contentid="' + prev.get('id') + '"]') : null;
+    
+    if (prevEl && prevEl.length > 0) {
         itemEl.insertAfter(prevEl);
-    }*/
+    } else {
+        this.$el.append(itemEl);
+    }
     var newScrollWidth = this.$el[0].scrollWidth;
     var diff = newScrollWidth - origScrollWidth;
 
