@@ -16,6 +16,9 @@ var TickerView = Backbone.View.extend(
         
         this.collection.on('add', this._insertItem, this);
         this.collection.on('initialDataLoaded', this.render, this);
+        this.collection.each(function(item) {
+        	self._insertItem(item, self.collection);
+        });
 
         if (this.feedCollection) {
             this.feedCollection.on('add', this._addFeedItem, this);
@@ -180,7 +183,16 @@ TickerView.prototype._addFeedItem = function(item, col) {
             break;
         }
     }
+};
 
+TickerView.prototype.scrollTo = function(contentId) {
+	var itemEl = this.$el.find('[data-hub-contentid="'+ contentId +'"]');
+	console.log(this.$el.scrollLeft(), itemEl.offset().left, window.outerWidth, itemEl.outerWidth());
+	console.log(this.$el.scrollLeft() + itemEl.offset().left - window.outerWidth + itemEl.outerWidth());
+    this.$el.animate({
+        scrollLeft: this.$el.scrollLeft() + itemEl.offset().left - window.outerWidth + itemEl.outerWidth()
+    }, 500);
+	return itemEl;
 };
 
 return TickerView;
