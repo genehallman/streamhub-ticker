@@ -6,6 +6,8 @@ var Backbone = require('backbone'),
 var TickerView = Backbone.View.extend(
 {
     initialize: function (opts) {
+        var self = this;
+
         this.$el.addClass(this.className);
         this.$el.hide();
         this.feedCollection = opts.feedCollection;
@@ -15,19 +17,29 @@ var TickerView = Backbone.View.extend(
         this.sources = opts.sources || {};
         
         this.collection.on('add', this._insertItem, this);
-        this.collection.on('initialDataLoaded', this.render, this);
+        // Fill the ticker with initial data
         this.collection.each(function(item) {
-        	self._insertItem(item, self.collection);
+            self._insertItem(item, self.collection);
         });
+        this.render();
 
         if (this.feedCollection) {
+            // Add feed items for any initially passed data (eg cache)
+            this.feedCollection.each(function (model, index, collection) {
+                self._addFeedItem(model, collection);
+            });
             this.feedCollection.on('add', this._addFeedItem, this);
         }
     },
     className: "hub-TickerView",
     render: function () {
-        // todo : create sub divs
         this.$el.fadeIn();
+        // Scroll to latest tick
+        var latest = this.collection.at(this.collection.length-1),
+            latestId = latest && latest.get('id');
+        if (latestId) {
+            this.scrollTo(latestId);
+        }
     }
 });
 
@@ -45,8 +57,8 @@ TickerView.prototype._insertItem = function (item, col) {
     itemEl.append(contentEl);
 
     var itemMetaEl = $('<div>' + item.get('bodyHtml') + '</div>').find(this.metaElement);
-	var	itemMeta = {};
-	try { itemMeta = JSON.parse(itemMetaEl.text()); } catch (ex) {}
+    var itemMeta = {};
+    try { itemMeta = JSON.parse(itemMetaEl.text()); } catch (ex) {}
 
     itemEl
       .addClass('hub-item')
@@ -54,15 +66,15 @@ TickerView.prototype._insertItem = function (item, col) {
       .attr('data-hub-createdAt', item.get('createdAt'))
       .attr('data-hub-source-id', item.get('sourceId'));
       
-    if (itemMeta['eventType']) {
-    	itemEl.attr('data-hub-event-type', itemMeta['eventType']);
+    if (itemMeta.eventType) {
+        itemEl.attr('data-hub-event-type', itemMeta.eventType);
     }
-    if (itemMeta['eventUrl']) {
-    	itemEl.attr('data-hub-event-url', itemMeta['eventUrl']);
-    	contentEl.css('background', 'url(' + itemMeta['eventUrl'] + ') no-repeat 0px 0px');
+    if (itemMeta.eventUrl) {
+        itemEl.attr('data-hub-event-url', itemMeta.eventUrl);
+        contentEl.css('background', 'url(' + itemMeta.eventUrl + ') no-repeat 0px 0px');
     }
-    if (itemMeta['eventImportant']) {
-    	itemEl.attr('data-hub-event-important', itemMeta['eventImportant']);
+    if (itemMeta.eventImportant) {
+        itemEl.attr('data-hub-event-important', itemMeta.eventImportant);
     }
         
     var contentView = new ContentView({
@@ -71,7 +83,7 @@ TickerView.prototype._insertItem = function (item, col) {
     });
     
     var subCol = new Backbone.Collection();
-    subCol.comparator = function(i) { return i.get('createdAt');};  
+    subCol.comparator = function(i) { return i.get('createdAt'); };
 
     var feedView = new FeedTickerView({
         collection: subCol,
@@ -81,7 +93,7 @@ TickerView.prototype._insertItem = function (item, col) {
     feedView.render();
     
     this.childViews[item.get('createdAt')] = {feedView:feedView, item: item};
-	
+    
     this._animateAdd(itemEl, col, col.indexOf(item));
     
     //this._rebalanceFeedItems(item, col);
@@ -93,7 +105,7 @@ TickerView.prototype._animateAdd = function(itemEl, col, index) {
     var prev = col.at(index-1);
     var next = col.at(index+1);
     var origScrollWidth = this.$el[0].scrollWidth;
-	var prevEl = prev ? this.$el.find('.hub-item[data-hub-contentid="' + prev.get('id') + '"]') : null;
+    var prevEl = prev ? this.$el.find('.hub-item[data-hub-contentid="' + prev.get('id') + '"]') : null;
     
     if (prevEl && prevEl.length > 0) {
         itemEl.insertAfter(prevEl);
@@ -131,7 +143,7 @@ TickerView.prototype._rebalanceFeedItems = function(item, col) {
                 prev = this.childViews[prevItem.get('id')];
             }
             if (!prev) { break; }
-            prevFeedItem = prev.item.collection.last()
+            prevFeedItem = prev.item.collection.last();
         }
         if (!prev) { break; }
         if (prevFeedItem.get('createdAt') > createdAt) {
@@ -139,7 +151,7 @@ TickerView.prototype._rebalanceFeedItems = function(item, col) {
             prev.item.collection.remove(prevFeedItem);
             feedCol.add(prevFeedItem);
         }
-        prevFeedItem = prev.item.collection.last()
+        prevFeedItem = prev.item.collection.last();
     }
 
     var next;
@@ -155,7 +167,7 @@ TickerView.prototype._rebalanceFeedItems = function(item, col) {
                 next = this.childViews[nextItem.get('id')];
             }
             if (!next) { break; }
-            nextFeedItem = next.item.collection.first()
+            nextFeedItem = next.item.collection.first();
         }
         if (!next) { break; }
         if (nextFeedItem.get('createdAt') < createdAt) {
@@ -163,8 +175,8 @@ TickerView.prototype._rebalanceFeedItems = function(item, col) {
             next.item.collection.remove(nextFeedItem);
             feedCol.add(nextFeedItem);
         }
-        nextFeedItem = next.item.collection.first()
-    }   
+        nextFeedItem = next.item.collection.first();
+    }
 };
 
 TickerView.prototype._addFeedItem = function(item, col) {
@@ -172,7 +184,7 @@ TickerView.prototype._addFeedItem = function(item, col) {
     var itemCreatedAt = item.get('createdAt');
     var keys = Object.keys(this.childViews).sort();
 
-    if (keys.length == 0) {
+    if (keys.length === 0) {
         return;
     }
 
@@ -186,11 +198,11 @@ TickerView.prototype._addFeedItem = function(item, col) {
 };
 
 TickerView.prototype.scrollTo = function(contentId) {
-	var itemEl = this.$el.find('[data-hub-contentid="'+ contentId +'"]');
+    var itemEl = this.$el.find('[data-hub-contentid="'+ contentId +'"]');
     this.$el.animate({
         scrollLeft: this.$el.scrollLeft() + itemEl.offset().left - window.outerWidth + itemEl.outerWidth()
     }, 500);
-	return itemEl;
+    return itemEl;
 };
 
 return TickerView;
