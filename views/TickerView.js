@@ -23,12 +23,11 @@ var TickerView = Backbone.View.extend(
         });
         this.render();
 
-        // Add feed items for any initially passed data (eg cache)
-        this.feedCollection.each(function (model, index, collection) {
-            self._addFeedItem(model, collection);
-        });
-
         if (this.feedCollection) {
+            // Add feed items for any initially passed data (eg cache)
+            this.feedCollection.each(function (model, index, collection) {
+                self._addFeedItem(model, collection);
+            });
             this.feedCollection.on('add', this._addFeedItem, this);
         }
     },
