@@ -187,8 +187,6 @@ TickerView.prototype._addFeedItem = function(item, col) {
 
 TickerView.prototype.scrollTo = function(contentId) {
 	var itemEl = this.$el.find('[data-hub-contentid="'+ contentId +'"]');
-	console.log(this.$el.scrollLeft(), itemEl.offset().left, window.outerWidth, itemEl.outerWidth());
-	console.log(this.$el.scrollLeft() + itemEl.offset().left - window.outerWidth + itemEl.outerWidth());
     this.$el.animate({
         scrollLeft: this.$el.scrollLeft() + itemEl.offset().left - window.outerWidth + itemEl.outerWidth()
     }, 500);
