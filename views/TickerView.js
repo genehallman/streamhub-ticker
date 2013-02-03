@@ -81,7 +81,7 @@ TickerView.prototype._insertItem = function (item, col) {
     feedView.render();
     
     this.childViews[item.get('createdAt')] = {feedView:feedView, item: item};
-
+	
     this._animateAdd(itemEl, col, col.indexOf(item));
     
     //this._rebalanceFeedItems(item, col);
@@ -98,7 +98,7 @@ TickerView.prototype._animateAdd = function(itemEl, col, index) {
     if (prevEl && prevEl.length > 0) {
         itemEl.insertAfter(prevEl);
     } else {
-        this.$el.append(itemEl);
+        this.$el.prepend(itemEl);
     }
     var newScrollWidth = this.$el[0].scrollWidth;
     var diff = newScrollWidth - origScrollWidth;
