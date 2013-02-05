@@ -102,11 +102,15 @@ TickerView.prototype._insertItem = function (item, col) {
 };
 
 TickerView.prototype._animateAdd = function(itemEl, col, index) {
-    var prev = col.at(index-1);
-    var next = col.at(index+1);
-    var origScrollWidth = this.$el[0].scrollWidth;
-    var prevEl = prev ? this.$el.find('.hub-item[data-hub-contentid="' + prev.get('id') + '"]') : null;
+    var prev, prevEl, i = 1;
+    while (index > 0 && (!prevEl || (prevEl && prevEl.length <= 0)) && i <= index) {
+	    prev = col.at(index-i);
+    	prevEl = prev ? this.$el.find('.hub-item[data-hub-contentid="' + prev.get('id') + '"]') : null;
+    	i++;
+    }
     
+    var origScrollWidth = this.$el[0].scrollWidth;
+
     if (prevEl && prevEl.length > 0) {
         itemEl.insertAfter(prevEl);
     } else {
@@ -115,11 +119,11 @@ TickerView.prototype._animateAdd = function(itemEl, col, index) {
     var newScrollWidth = this.$el[0].scrollWidth;
     var diff = newScrollWidth - origScrollWidth;
 
-    if (!this.paused && col._initialized) {
+    if (!this.paused && col._initialized && (index >= (col.size()-1))) {
         this.$el.animate({
             scrollLeft: this.$el.scrollLeft() + diff
         }, 500);
-    } else if (!col._initialized) {
+    } else if (!col._initialized || (index < (col.size()-1))) {
         this.$el.scrollLeft(this.$el.scrollLeft() + diff);
     }
 };
