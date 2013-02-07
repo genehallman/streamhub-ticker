@@ -1,0 +1,26 @@
+{
+    "tags": {
+        "allowUnknownTags": true
+    },
+    "source": {
+        "include": ["."],
+        "exclude": [],
+        "includePattern": ".+\\.js(doc)?$",
+        "excludePattern": "(^|\\/|\\\\)(_|components(\\/|\\\\))"
+    },
+    "templates": {
+        "cleverLinks": true,
+        "monospaceLinks": true,
+        "default": {
+            "outputSourceFiles": true
+        }
+    },
+    "plugins": [ "plugins/markdown" ],
+    "opts": {
+        "destination": "./docs",
+        "recurse": true
+    },
+    "markdown": {
+        "parser": "gfm"
+    }
+}
