@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: FeedTickerView</title>
+    <title>JSDoc: Module: TickerView</title>
     
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Module: FeedTickerView</h1>
+    <h1 class="page-title">Module: TickerView</h1>
     
     
 
@@ -27,7 +27,7 @@
     
 <header>
     <h2>
-    FeedTickerView
+    TickerView
     </h2>
     
 </header>  
@@ -37,7 +37,7 @@
     
         
 <dt>
-    <h4 class="name" id="module:FeedTickerView"><span class="type-signature"></span>new require("FeedTickerView")<span class="signature">(opts)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="module:TickerView"><span class="type-signature"></span>new require("TickerView")<span class="signature">(opts)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -45,7 +45,11 @@
     
     
     <div class="description">
-        <p>FeedTickerView is a view of Streamhub data that is structured as a feed, above a TickerView.</p>
+        <p>TickerView is a view of Streamhub data that is structured as a horizontal ticker, similar to
+television media's ticker, time based, LTR. When the feedCollection option is specified, the
+ticker view will use the content items in the feedCollection to populate the Y-axis of the
+ticker, stacking all feedCollection items above the appropriate Ticker items, based on the
+create date of the content.</p>
     </div>
     
 
@@ -121,13 +125,16 @@
 	
         <tr>
             
-                <td class="name"><code>contentViewOptions</code></td>
+                <td class="name"><code>feedCollection</code></td>
             
             
             <td class="type">
             
                 
-<span class="param-type">Object.&lt;string, *></span>
+<span class="param-type">Hub.Collection</span>
+|
+
+<span class="param-type">undefined</span>
 
 
             
@@ -137,8 +144,8 @@
             
             
             
-            <td class="description last"><p>A set of options that will be passed
-       to the ContentView created when a new piece of content is added to this view's collection.</p></td>
+            <td class="description last"><p>The feed collection that this ticker will use to
+       populate it's Y axis.</p></td>
         </tr>
 	
 	
@@ -162,6 +169,30 @@
             
             
             <td class="description last"><p>A set of source specific options.</p></td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>metaElement</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last"><p>The selector of an element inside the bodyHtml of each content
+       item that contains the meta data for this content item.</p></td>
         </tr>
 	
 	
@@ -198,7 +229,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FeedTickerView.js.html">FeedTickerView.js</a>, line 18
+        <a href="TickerView.js.html">TickerView.js</a>, line 23
     </li></ul></dd>
     
     
@@ -247,7 +278,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FeedTickerView.js.html">FeedTickerView.js</a>, line 1
+        <a href="TickerView.js.html">TickerView.js</a>, line 1
     </li></ul></dd>
     
     
@@ -357,13 +388,13 @@
     
     
     <dt class="tag-default">Default Value:</dt>
-    <dd class="tag-default"><ul class="dummy"><li>hub-FeedTickerView</li></ul></dd>
+    <dd class="tag-default"><ul class="dummy"><li>hub-TickerView</li></ul></dd>
     
     
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FeedTickerView.js.html">FeedTickerView.js</a>, line 50
+        <a href="TickerView.js.html">TickerView.js</a>, line 62
     </li></ul></dd>
     
     
@@ -387,6 +418,142 @@
         <dl>
             
 <dt>
+    <h4 class="name" id="_addFeedItem"><span class="type-signature">&lt;protected> </span>_addFeedItem<span class="signature">(item, col)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Adds feedCollection items to the appropriate collection for the child FeedTickerViews.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>item</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last"><p>The new feed item that is to be inserted into the child.</p></td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>col</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Backbone.Collection</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last"><p>A reference to the feedCollection that item came from.</p></td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="TickerView.js.html">TickerView.js</a>, line 252
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
     <h4 class="name" id="_animateAdd"><span class="type-signature">&lt;protected> </span>_animateAdd<span class="signature">(itemEl, col, index)</span><span class="type-signature"></span></h4>
     
     
@@ -396,8 +563,8 @@
     
     <div class="description">
         <p>Helper function to abstract the animation process on insertion. At this point in time,
-the item's main element has not been inserted into the DOM. It is the responsibility of this method
-to add the element to the DOM in any manner that it sees fit.</p>
+the item's main element has not been inserted into the DOM. It is the responsibility of this
+method to add the element to the DOM in any manner that it sees fit.</p>
     </div>
     
 
@@ -524,7 +691,7 @@ to add the element to the DOM in any manner that it sees fit.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FeedTickerView.js.html">FeedTickerView.js</a>, line 115
+        <a href="TickerView.js.html">TickerView.js</a>, line 154
     </li></ul></dd>
     
     
@@ -661,7 +828,7 @@ for collection.add events.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FeedTickerView.js.html">FeedTickerView.js</a>, line 68
+        <a href="TickerView.js.html">TickerView.js</a>, line 87
     </li></ul></dd>
     
     
@@ -707,6 +874,285 @@ for collection.add events.</p>
         
             
 <dt>
+    <h4 class="name" id="_rebalanceFeedItems"><span class="type-signature">&lt;protected> </span>_rebalanceFeedItems<span class="signature">(item, col, index)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Helper function to rebalance feed items whenever we receive a main Ticker item out
+of order. When this occurs, we step back over previous feed items, then check their
+the item's main element has not been inserted into the DOM. It is the responsibility of this method
+to add the element to the DOM in any manner that it sees fit.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>item</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last"><p>The item that is to be inserted.</p></td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>col</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Backbone.Collection</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last"><p>A reference to the collection that this item was added to.</p></td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>index</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last"><p>The index in the collection to find the original item.</p></td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="TickerView.js.html">TickerView.js</a>, line 191
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="scrollTo"><span class="type-signature"></span>scrollTo<span class="signature">(contentId)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Sets the scrollLeft the TickerView such that the element containing the specified contentId
+aligns to the right of the current window.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>contentId</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+|
+
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last"><p>The id of the piece of content to scroll to.</p></td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="TickerView.js.html">TickerView.js</a>, line 275
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
     <h4 class="name" id="initialize"><span class="type-signature">&lt;protected, inner> </span>initialize<span class="signature">(opts)</span><span class="type-signature"></span></h4>
     
     
@@ -715,7 +1161,7 @@ for collection.add events.</p>
     
     
     <div class="description">
-        <p>Initializes a FeedTickerView, and is called by backbone during view construction.
+        <p>Initializes a TickerView, and is called by backbone during view construction.
 Creates a couple of div's for styling and structure, then binds to the collection's add event.</p>
     </div>
     
@@ -766,7 +1212,7 @@ Creates a couple of div's for styling and structure, then binds to the collectio
             
             
             
-            <td class="description last"><p>A set of options to configure this instance.</p></td>
+            <td class="description last"><p>A set of options to configure this instance (@see constructor).</p></td>
         </tr>
 	
 	
@@ -797,7 +1243,7 @@ Creates a couple of div's for styling and structure, then binds to the collectio
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FeedTickerView.js.html">FeedTickerView.js</a>, line 26
+        <a href="TickerView.js.html">TickerView.js</a>, line 31
     </li></ul></dd>
     
     
@@ -829,7 +1275,8 @@ Creates a couple of div's for styling and structure, then binds to the collectio
     
     
     <div class="description">
-        <p>Renders a FeedTickerView. Fades the view's holding element into view.</p>
+        <p>Renders a TickerView. Fades the view's holding element into view, and scrolls to the latest
+item.</p>
     </div>
     
 
@@ -862,7 +1309,7 @@ Creates a couple of div's for styling and structure, then binds to the collectio
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="FeedTickerView.js.html">FeedTickerView.js</a>, line 55
+        <a href="TickerView.js.html">TickerView.js</a>, line 68
     </li></ul></dd>
     
     
