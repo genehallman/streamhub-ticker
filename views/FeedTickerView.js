@@ -21,6 +21,7 @@ var FeedTickerView = Backbone.View.extend(
 	 * Initializes a FeedTickerView, and is called by backbone during view construction.
 	 * Creates a couple of div's for styling and structure, then binds to the collection's add event.
 	 * @param {Object.<string, *>} opts A set of options to configure this instance.
+	 * @protected
 	 */
     initialize: function (opts) {
         this.$el.addClass(this.className);
