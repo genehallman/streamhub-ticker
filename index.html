@@ -2,45 +2,11 @@
 <html>
 <head>
     <title>StreamHub Backbone Example</title>
-    <script src="components/requirejs/require.js"
+    <script src="lib/requirejs/require.js"
+    		data-main="requirejs.conf"
             type="text/javascript"></script>
     <script src="http://zor.t402.livefyre.com/wjs/v3.0.sdk/javascripts/livefyre.js"></script>
-    <script type="text/javascript">
-    // Require.js Config
-    require.config({
-      paths: {
-        jquery: 'components/jquery/jquery',
-        underscore: 'components/underscore/underscore',
-        backbone: 'components/backbone/backbone',
-        mustache: 'components/mustache/mustache',
-        text: 'components/requirejs-text/text'
-      },
-      packages: [{
-        name: 'streamhub-backbone',
-        location: 'components/streamhub-backbone'
-      },
-      {
-    	name: "streamhub-ticker",
-      	location: "."
-      }
-      ],
-      shim: {
-        backbone: {
-            deps: ['underscore', 'jquery'],
-            exports: 'Backbone'
-        },
-        underscore: {
-            exports: '_'
-        },
-        jquery: {
-            exports: '$'
-        }
-      },
-      urlArgs: "_=" +  (new Date()).getTime()
-    });
-    </script>
-    <link rel="stylesheet" type="text/css" href="components/streamhub-backbone/main.css">
-    <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="stylesheet" type="text/css" href="lib/streamhub-backbone/main.css">
     <style>
     body {
         color: #222;
@@ -144,12 +110,6 @@
 	require(['streamhub-backbone', 'streamhub-ticker/views/TickerView',  'jquery'],
 	function(Hub, View, $) {
 	    function loadApp (sdk) {
-
-	    	/*var col = new Hub.Collection([{
-	    		sdk: sdk,
-                siteId: "303827",
-                articleId: "feed_ticker_0"
-            }]);*/
 
 	    	var col = window.col = new Hub.Collection().setRemote({
 	    		sdk: sdk,

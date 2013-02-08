@@ -29,6 +29,7 @@ var TickerView = Backbone.View.extend(
 	 * @protected
 	 */
     initialize: function (opts) {
+        opts = opts || {};
         var self = this;
 
         this.$el.addClass(this.className);
@@ -39,11 +40,13 @@ var TickerView = Backbone.View.extend(
 
         this.sources = opts.sources || {};
         
-        this.collection.on('add', this._insertItem, this);
-        // Fill the ticker with initial data
-        this.collection.each(function(item) {
-            self._insertItem(item, self.collection);
-        });
+        if (this.collection) {
+	        this.collection.on('add', this._insertItem, this);
+	        // Fill the ticker with initial data
+	        this.collection.each(function(item) {
+	            self._insertItem(item, self.collection);
+	        });
+        }
         this.render();
 
         if (this.feedCollection) {
@@ -68,10 +71,12 @@ var TickerView = Backbone.View.extend(
     render: function () {
         this.$el.fadeIn();
         // Scroll to latest tick
-        var latest = this.collection.at(this.collection.length-1),
-            latestId = latest && latest.get('id');
-        if (latestId) {
-            this.scrollTo(latestId);
+        if (this.collection) {
+	        var latest = this.collection.at(this.collection.length-1);
+	        var latestId = latest && latest.get('id');
+	        if (latestId) {
+	            this.scrollTo(latestId);
+	        }
         }
     }
 });
@@ -259,7 +264,7 @@ TickerView.prototype._addFeedItem = function(item, col) {
     }
 
     for (var i = 0; i < keys.length; i++) {
-        if (itemCreatedAt > keys[i] && (i == keys.length - 1 || itemCreatedAt < keys[i+1])) {
+        if (itemCreatedAt >= keys[i] && (i == keys.length - 1 || itemCreatedAt < keys[i+1])) {
             var feedView = this.childViews[keys[i]].feedView;
             feedView.collection.add(item);
             break;
@@ -271,11 +276,15 @@ TickerView.prototype._addFeedItem = function(item, col) {
  * Sets the scrollLeft the TickerView such that the element containing the specified contentId
  * aligns to the right of the current window.  
  * @param {number|string} contentId The id of the piece of content to scroll to.
+ * @return The item that was scrolled to matching contentId
  */
 TickerView.prototype.scrollTo = function(contentId) {
-    var itemEl = this.$el.find('[data-hub-contentid="'+ contentId +'"]');
+    var itemEl = this.$el.find('.hub-item[data-hub-contentid="'+ contentId +'"]');
+    if (itemEl.length < 0) {
+    	return null;
+    }
     this.$el.animate({
-        scrollLeft: this.$el.scrollLeft() + itemEl.offset().left - window.outerWidth + itemEl.outerWidth()
+        scrollLeft: this.$el.scrollLeft() + itemEl.position().left - itemEl.outerWidth()
     }, 500);
     return itemEl;
 };

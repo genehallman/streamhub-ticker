@@ -24,6 +24,7 @@ var FeedTickerView = Backbone.View.extend(
 	 * @protected
 	 */
     initialize: function (opts) {
+    	opts = opts || {};
         this.$el.addClass(this.className);
         this.$el.hide();
         
@@ -40,7 +41,9 @@ var FeedTickerView = Backbone.View.extend(
         this.$el.append(outerHolder.append(this.itemHolder));
         
         var self = this;
-        this.collection.on('add', this._insertItem, this);
+        if (this.collection) {
+        	this.collection.on('add', this._insertItem, this);
+        }
     },
 
     /**
