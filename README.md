@@ -62,7 +62,7 @@ Once you've called bower install, you'll have a suite of components available to
   		},
   		{
   			name: "streamhub-ticker",
-  			location: "components"
+  			location: "components/streamhub-ticker"
   		}]
   	});
   
