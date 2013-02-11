@@ -12,8 +12,8 @@
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-	<style>
-	.hub-item {
+    <style>
+    .hub-item {
         padding:0;
         margin: 0;
         cursor: pointer;
@@ -24,49 +24,49 @@
     }
     
     .hub-item .item-feed-view {
-    	height:300px;
-    	width:100px;
-    	overflow-y:hidden;
-    	overflow-x:hidden;
-    	position:relative;
+        height:300px;
+        width:100px;
+        overflow-y:hidden;
+        overflow-x:hidden;
+        position:relative;
     }
 
     .hub-item .item-content-view {
-    	height:100px;
-    	width:100px;
-    	overflow:hidden;
-    	background-color:white;
-    	padding:0;
-    	margin:0;
-    	vertical-align:top;
+        height:100px;
+        width:100px;
+        overflow:hidden;
+        background-color:white;
+        padding:0;
+        margin:0;
+        vertical-align:top;
     }
 
-	.hub-feed-item {
-	   	height:100px;
-    	width:100px;
-    	overflow:hidden;
-    	background-color:white;
-    	padding:0;
-    	margin:0;
-    	vertical-align:top;
-    	position:relative;
+    .hub-feed-item {
+        height:100px;
+        width:100px;
+        overflow:hidden;
+        background-color:white;
+        padding:0;
+        margin:0;
+        vertical-align:top;
+        position:relative;
     }
-	.hub-feed-item-holder {
-		max-height:300px;
-		width:115px;
-		position:absolute;
-		bottom:0px;
-		overflow-y:scroll;
-		overflow-x:hidden;
-	}
+    .hub-feed-item-holder {
+        max-height:300px;
+        width:115px;
+        position:absolute;
+        bottom:0px;
+        overflow-y:scroll;
+        overflow-x:hidden;
+    }
     .hub-content {
-    	position:relative;
+        position:relative;
     }
     .hub-heading .hub-timestamp {
-    	float:none;
-    	position:absolute;
-    	bottom:0;
-    	left:0;
+        float:none;
+        position:absolute;
+        bottom:0;
+        left:0;
     }
     
     .sort-links a, .filter-links a {
@@ -74,14 +74,14 @@
         text-decoration: underline;
     }
     #example {
-    	white-space:nowrap;
-    	height:415px;
-    	overflow-x:scroll;
-    	overflow-y:hidden;
-    	border:inset 1px gray;
-    	background-color:#eee;
+        white-space:nowrap;
+        height:415px;
+        overflow-x:scroll;
+        overflow-y:hidden;
+        border:inset 1px gray;
+        background-color:#eee;
     }
-	</style>
+    </style>
   </head>
   <body>
     <div class="wrapper">
@@ -163,24 +163,24 @@ $ npm start
   &lt;script type="text/javascript"&gt;
 
     require.config({
-	  baseUrl: 'components',
+      baseUrl: 'components',
       paths: {
-   	    jquery: 'jquery/jquery',
-    	text: 'requirejs-text/text',
+        jquery: 'jquery/jquery',
+        text: 'requirejs-text/text',
         backbone: 'backbone/backbone',
         underscore: 'underscore/underscore',
         mustache: 'mustache/mustache',
         isotope: 'isotope/jquery.isotope',
         fyre: 'http://zor.t402.livefyre.com/wjs/v3.0/javascripts/livefyre',
       },
-	  packages: [ {
-		name: 'streamhub-backbone',
-		location: 'streamhub-backbone'
-	  },
-	  {
-		name: "streamhub-ticker",
-      	location: "streamhub-ticker/src"
-	  }],
+      packages: [ {
+        name: 'streamhub-backbone',
+        location: 'streamhub-backbone'
+      },
+      {
+        name: "streamhub-ticker",
+        location: "streamhub-ticker/src"
+      }],
       shim: {
         backbone: {
             deps: ['underscore', 'jquery'],
@@ -204,8 +204,8 @@ $ npm start
             fyre.conv.load({network: "network.fyre.co"}, [{app: 'sdk'}], function(sdk) {
             var col = window.col = new Hub.Collection().setRemote({
                 sdk: sdk,
-                    siteId: "12345",
-                    articleId: "article_1"
+                siteId: "12345",
+                articleId: "article_1"
             });
 
             var feedCol = window.feedCol = new Hub.Collection();
