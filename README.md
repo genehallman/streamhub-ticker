@@ -62,12 +62,12 @@ Once you've called bower install, you'll have a suite of components available to
   		},
   		{
   			name: "streamhub-ticker",
-  			location: "components/streamhub-ticker"
+  			location: "components/streamhub-ticker/src"
   		}]
   	});
   
   	// Now to load the example
-  	require(['streamhub-backbone', 'streamhub-ticker/src/views/TickerView'],
+  	require(['streamhub-backbone', 'streamhub-ticker/views/TickerView'],
   	function(Hub, View) {
   			fyre.conv.load({network: "network.fyre.co"}, [{app: 'sdk'}], function(sdk) {
   	    	var col = window.col = new Hub.Collection().setRemote({
