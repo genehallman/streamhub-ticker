@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: FeedTickerView.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: FeedTickerView.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/** @module FeedTickerView */
+
+define(function(require) {
+
+var Backbone = require('backbone'),
+    ContentView = require('streamhub-backbone/views/ContentView'),
+    sources = require('streamhub-backbone/const/sources');
+
+/**
+ * FeedTickerView is a view of Streamhub data that is structured as a feed, above a TickerView.
+ * @alias module:FeedTickerView
+ * @constructor
+ * @param {Object.&lt;string, *>} opts A set of options to configure this instance.
+ * @param {Object.&lt;string, *>} opts.contentViewOptions A set of options that will be passed
+ *        to the ContentView created when a new piece of content is added to this view's collection.
+ * @param {Object.&lt;string, *>} opts.sources A set of source specific options.
+ */
+var FeedTickerView = Backbone.View.extend(
+{
+	/**
+	 * Initializes a FeedTickerView, and is called by backbone during view construction.
+	 * Creates a couple of div's for styling and structure, then binds to the collection's add event.
+	 * @param {Object.&lt;string, *>} opts A set of options to configure this instance.
+	 * @protected
+	 */
+    initialize: function (opts) {
+    	opts = opts || {};
+        this.$el.addClass(this.className);
+        this.$el.hide();
+        
+        var outerHolder = $(document.createElement('div'));
+        outerHolder.addClass('hub-feed-item-holder');
+        
+        this.itemHolder = $(document.createElement('div'));
+        this.itemHolder.addClass('hub-feed-item-inner-holder');
+        this.$el.append(this.itemHolder);
+
+        this._contentViewOpts = opts.contentViewOptions || {};
+        this._sourceOpts = opts.sources || {};
+        
+        this.$el.append(outerHolder.append(this.itemHolder));
+        
+        var self = this;
+        if (this.collection) {
+        	this.collection.on('add', this._insertItem, this);
+        }
+    },
+
+    /**
+     * @property {string} className The css class name that this object will apply to it's holding element
+     * @default hub-FeedTickerView
+     */
+    className: "hub-FeedTickerView",
+
+    /**
+	 * Renders a FeedTickerView. Fades the view's holding element into view.
+	 */
+    render: function () {
+        this.$el.fadeIn();
+    }
+});
+
+/**
+ * Inserts a new piece of content into the dom. Used as a callback handler
+ * for collection.add events.
+ * @param {Object} item A piece of content that was streamed to this view from Streamhub.
+ * @param {Backbone.Collection} col A reference to the collection that this item was added to.
+ * @return {Object} The $html element that was inserted.
+ * @protected
+ */
+FeedTickerView.prototype._insertItem = function (item, col) {
+    var itemEl = $(document.createElement('div'));
+    var json = item.toJSON();
+    
+    if (!json.author) { return; }
+
+    itemEl
+      .addClass('hub-feed-item')
+      .attr('data-hub-contentId', json.id)
+      .attr('data-hub-source-id', item.get('sourceId'));
+
+    // Interleave configured default opts with source-specific opts
+    var self = this;
+    function _getContentViewOpts (content) {
+        var opts = {},
+            configuredOpts = _(opts).extend(self._contentViewOpts),
+            perSourceOpts;
+        if (content.get('source')==sources.TWITTER) {
+            return _(configuredOpts).extend(self._sourceOpts.twitter||{});
+        }
+        if (content.get('source')==sources.RSS) {
+            return _(configuredOpts).extend(self._sourceOpts.rss||{});
+        }
+        return configuredOpts;
+    }
+
+    // Create the ContentView so we can look at it and stuff!
+    // render it in itemEl
+    var cv = new ContentView(_.extend({
+        model: item,
+        el: itemEl
+    }, _getContentViewOpts(item)));
+    
+    this._animateAdd(itemEl, col, col.indexOf(item));
+    
+    return itemEl;
+};
+
+/**
+ * Helper function to abstract the animation process on insertion. At this point in time,
+ * the item's main element has not been inserted into the DOM. It is the responsibility of this method
+ * to add the element to the DOM in any manner that it sees fit. 
+ * @param {Object} itemEl The $html element for the item that is to be inserted.
+ * @param {Backbone.Collection} col A reference to the collection that this item was added to.
+ * @param {number} index The index in the collection to find the original item.
+ * @protected
+ */
+FeedTickerView.prototype._animateAdd = function(itemEl, col, index) {
+    var prev = col.at(index-1);
+    var next = col.at(index+1);
+    var self = this;
+    itemEl.hide();
+    
+    var origScroll = this.itemHolder.parent()[0].scrollHeight;
+    if (index === 0) {
+        this.itemHolder.append(itemEl);
+        itemEl.slideDown();
+    } else {
+        prevEl = this.itemHolder.find('.hub-feed-item[data-hub-contentid="' + prev.get('id') + '"]');
+        itemEl.insertBefore(prevEl).slideDown();
+    }
+    this.itemHolder.parent().addClass('nonEmpty');
+};
+
+return FeedTickerView;
+});
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-FeedTickerView.html">FeedTickerView</a></li><li><a href="module-TickerView.html">TickerView</a></li></ul><h3>Classes</h3><ul><h3>Classes</h3><ul></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.1.0</a> on Fri Feb 08 2013 18:47:47 GMT-0800 (PST)
+</footer>
+
+<script> prettyPrint(); </script>
+</body>
+</html>

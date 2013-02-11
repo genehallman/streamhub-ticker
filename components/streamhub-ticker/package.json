@@ -1,0 +1,20 @@
+{
+  "name": "streamhub-ticker",
+  "description": "A StreamHub-Backbone plugin that visualizes 2 streams: one as a ticker in X axis, and the other, feed views in the Y axis.",
+  "author": {
+    "name": "Gene Hallman"
+  },
+  "version": "0.0.1",
+  "devDependencies": {
+    "bower": "*",
+    "jasmine-node": "*",
+    "jsdoc3": "git://github.com/jsdoc3/jsdoc.git#v3.1.0",
+    "http-server": "*"
+  },
+  "scripts": {
+    "postinstall": "./node_modules/bower/bin/bower install",
+    "doc": "rm -rf docs && ./node_modules/jsdoc/jsdoc -c jsdoc.conf.json",
+    "test": "open tests/index.html",
+    "start": "./node_modules/http-server/bin/http-server"
+  }
+}
