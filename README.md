@@ -90,35 +90,35 @@ Once you've called bower install, you'll have a suite of components available to
         },
       }
     });
-  	// Now to load the example
-  	require(['streamhub-backbone', 'streamhub-ticker/views/TickerView'],
-  	function(Hub, View) {
-  			fyre.conv.load({network: "network.fyre.co"}, [{app: 'sdk'}], function(sdk) {
-  	    	var col = window.col = new Hub.Collection().setRemote({
-  	    		sdk: sdk,
-  					siteId: "12345",
-  					articleId: "article_1"
-  			});
-            
-  	    	var feedCol = window.feedCol = new Hub.Collection();
-  
-  	    	col.on('initialDataLoaded', function() {
-  	    		feedCol.setRemote({
-  					sdk: sdk,
-  					siteId: "12345",
-  					articleId: "article_2"
-  				});
-  			}, this);
-  
-  			var view = new View({
-  				collection: col,
-  				el: document.getElementById("example"),
-  				feedCollection:feedCol
-  			});
-  			view.render();
-  		});
+    // Now to load the example
+    require(['streamhub-backbone', 'streamhub-ticker/views/TickerView'],
+    function(Hub, View) {
+  	fyre.conv.load({network: "network.fyre.co"}, [{app: 'sdk'}], function(sdk) {
+      	var col = window.col = new Hub.Collection().setRemote({
+		sdk: sdk,
+  		siteId: "12345",
+  		articleId: "article_1"
   	});
-  <script>
+            
+  	var feedCol = window.feedCol = new Hub.Collection();
+  
+  	col.on('initialDataLoaded', function() {
+  		feedCol.setRemote({
+  			sdk: sdk,
+  			siteId: "12345",
+  			articleId: "article_2"
+  		});
+  	}, this);
+  
+  	var view = new View({
+  		collection: col,
+  		el: document.getElementById("example"),
+  		feedCollection:feedCol
+  	});
+  	view.render();
+      });
+    });
+  </script>
   
   ...
 ```
