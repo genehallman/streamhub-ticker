@@ -3,7 +3,7 @@
 <head>
     <title>StreamHub Backbone Example</title>
     <script src="lib/requirejs/require.js"
-    		data-main="requirejs.conf"
+            data-main="requirejs.conf"
             type="text/javascript"></script>
     <script src="http://zor.t402.livefyre.com/wjs/v3.0.sdk/javascripts/livefyre.js"></script>
     <link rel="stylesheet" type="text/css" href="lib/streamhub-backbone/main.css">
@@ -25,49 +25,49 @@
     }
     
     .hub-item .item-feed-view {
-    	height:400px;
-    	width:100px;
-    	overflow-y:hidden;
-    	overflow-x:hidden;
-    	position:relative;
+        height:400px;
+        width:100px;
+        overflow-y:hidden;
+        overflow-x:hidden;
+        position:relative;
     }
 
     .hub-item .item-content-view {
-    	height:100px;
-    	width:100px;
-    	overflow:hidden;
-    	background-color:white;
-    	padding:0;
-    	margin:0;
-    	vertical-align:top;
+        height:100px;
+        width:100px;
+        overflow:hidden;
+        background-color:white;
+        padding:0;
+        margin:0;
+        vertical-align:top;
     }
 
-	.hub-feed-item {
-	   	height:100px;
-    	width:100px;
-    	overflow:hidden;
-    	background-color:white;
-    	padding:0;
-    	margin:0;
-    	vertical-align:top;
-    	position:relative;
+    .hub-feed-item {
+        height:100px;
+        width:100px;
+        overflow:hidden;
+        background-color:white;
+        padding:0;
+        margin:0;
+        vertical-align:top;
+        position:relative;
     }
-	.hub-feed-item-holder {
-		max-height:400px;
-		width:115px;
-		position:absolute;
-		bottom:0px;
-		overflow-y:scroll;
-		overflow-x:hidden;
-	}
+    .hub-feed-item-holder {
+        max-height:400px;
+        width:115px;
+        position:absolute;
+        bottom:0px;
+        overflow-y:scroll;
+        overflow-x:hidden;
+    }
     .hub-content {
-    	position:relative;
+        position:relative;
     }
     .hub-heading .hub-timestamp {
-    	float:none;
-    	position:absolute;
-    	bottom:0;
-    	left:0;
+        float:none;
+        position:absolute;
+        bottom:0;
+        left:0;
     }
     
     .sort-links a, .filter-links a {
@@ -75,14 +75,14 @@
         text-decoration: underline;
     }
     #example {
-    	white-space:nowrap;
-    	height:515px;
-    	overflow-x:scroll;
-    	overflow-y:hidden;
+        white-space:nowrap;
+        height:515px;
+        overflow-x:scroll;
+        overflow-y:hidden;
     }
     #tickerHolder {
-    	height:500px;
-    	overflow:hidden;
+        height:500px;
+        overflow:hidden;
     }
     </style>
 </head>
@@ -94,66 +94,66 @@
       User token: <input id='userToken' value='eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJkb21haW4iOiAibGFicy10NDAyLmZ5cmUuY28iLCAiZXhwaXJlcyI6IDEzNTkzNzM4NDkuNzUyMzY0LCAidXNlcl9pZCI6ICJzeXN0ZW0ifQ.S7uGf48ufOQ9wkwSk-SLlNt8SMJpNPHLFp9X4u4mHUE'></input>
       Message: <input id='newMessage' /><br/>
 
-	  <input type="radio" name="colSelect" value="main" checked="checked">Main</input>
-	  <input type="radio" name="colSelect" value="feed">Feed</input>
+      <input type="radio" name="colSelect" value="main" checked="checked">Main</input>
+      <input type="radio" name="colSelect" value="feed">Feed</input>
 
-  	  <button id='postMessage'>Post</button><br/>
-  	  <span id='status'>NA</span>
+      <button id='postMessage'>Post</button><br/>
+      <span id='status'>NA</span>
     </div>
     <div id="tickerHolder">
-	  <div id="example"></div>
-   	</div>
-  </div>
+      <div id="example"></div>
+      </div>
+    </div>
   
   <script type="text/javascript">
-	// Now to load the example
-	require(['streamhub-backbone', 'streamhub-ticker/views/TickerView',  'jquery'],
-	function(Hub, View, $) {
-	    function loadApp (sdk) {
+    // Now to load the example
+    require(['streamhub-backbone', 'streamhub-ticker/views/TickerView',  'jquery'],
+    function(Hub, View, $) {
+        function loadApp (sdk) {
 
-	    	var col = window.col = new Hub.Collection().setRemote({
-	    		sdk: sdk,
+            var col = window.col = new Hub.Collection().setRemote({
+                sdk: sdk,
                 siteId: "303827",
                 articleId: "scoreboard_demo_0"
             });
             
-	    	var feedCol = window.feedCol = new Hub.Collection();
+            var feedCol = window.feedCol = new Hub.Collection();
 
-	    	col.on('initialDataLoaded', function() {
-	    		feedCol.setRemote({
-    	    		sdk: sdk,
+            col.on('initialDataLoaded', function() {
+                feedCol.setRemote({
+                    sdk: sdk,
                     siteId: "303827",
                     articleId: "feed_ticker_0"
                 });
             }, this);
 
-	    	var view = new View({collection: col, el: document.getElementById("example"), feedCollection:feedCol});
-	    	view.render();
+            var view = new View({collection: col, el: document.getElementById("example"), feedCollection:feedCol});
+            view.render();
 
-		    $('#postMessage').click(function() {
-		    	$('#status').text('Submitting...');
-		    	var collection = $('input[name=colSelect]:checked').val() == "feed" ? feedCol : col;
-		    	
-		    	collection._sdkCollection.setUserToken($('#userToken').val());
-		    	collection._sdkCollection.postContent({bodyHtml: $('#newMessage').val()}, function() {
-		    		$('#status').text('Success: ' + JSON.stringify(arguments));
-		    		$('#newMessage').val('');
-		    	}, function() {
-		    		$('#status').text('Failed: ' + JSON.stringify(arguments));
-		    	});
-		    	return false;
-		    });
-		    
-		    $('#pauseButton').click(function() {
-		    	view.paused = !view.paused;
-		    	$('#pauseButton').text(view.paused ? 'Start': 'Pause');
-		    });
-	    }
+            $('#postMessage').click(function() {
+                $('#status').text('Submitting...');
+                var collection = $('input[name=colSelect]:checked').val() == "feed" ? feedCol : col;
+                
+                collection._sdkCollection.setUserToken($('#userToken').val());
+                collection._sdkCollection.postContent({bodyHtml: $('#newMessage').val()}, function() {
+                    $('#status').text('Success: ' + JSON.stringify(arguments));
+                    $('#newMessage').val('');
+                }, function() {
+                    $('#status').text('Failed: ' + JSON.stringify(arguments));
+                });
+                return false;
+            });
+            
+            $('#pauseButton').click(function() {
+                view.paused = !view.paused;
+                $('#pauseButton').text(view.paused ? 'Start': 'Pause');
+            });
+        }
 
-	    fyre.conv.load({
-	        network: "labs-t402.fyre.co"
-	    }, [{app: 'sdk'}], loadApp);
-	});
+        fyre.conv.load({
+            network: "labs-t402.fyre.co"
+        }, [{app: 'sdk'}], loadApp);
+    });
   </script>
 </body>
 </html>
