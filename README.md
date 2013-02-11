@@ -52,20 +52,44 @@ Once you've called bower install, you'll have a suite of components available to
   <script src="components/requirejs/require.js" type="text/javascript"></script>
   <!-- Get Livefyre sdk loader -->
   <script src="http://zor.t402.livefyre.com/wjs/v3.0.sdk/javascripts/livefyre.js"></script>
-  
+
   <script type="text/javascript">
 
-  	require.config({
-  		packages: [	{
-  			name: 'streamhub-backbone',
-  			location: 'components/streamhub-backbone'
-  		},
-  		{
-  			name: "streamhub-ticker",
-  			location: "components/streamhub-ticker"
-  		}]
-  	});
-  
+    require.config({
+      baseUrl: 'components',
+      paths: {
+	jquery: 'jquery/jquery',
+    	text: 'requirejs-text/text',
+        backbone: 'backbone/backbone',
+        underscore: 'underscore/underscore',
+        mustache: 'mustache/mustache',
+        isotope: 'isotope/jquery.isotope',
+        fyre: 'http://zor.t402.livefyre.com/wjs/v3.0/javascripts/livefyre',
+      },
+      packages: [ {
+	name: 'streamhub-backbone',
+	location: 'streamhub-backbone'
+      },
+      {
+	name: "streamhub-ticker",
+      	location: "streamhub-ticker/src"
+      }],
+      shim: {
+        backbone: {
+            deps: ['underscore', 'jquery'],
+            exports: 'Backbone'
+        },
+        underscore: {
+            exports: '_'
+        },
+        isotope: {
+            deps: ['jquery']
+        },
+        fyre: {
+            exports: 'fyre'
+        },
+      }
+    });
   	// Now to load the example
   	require(['streamhub-backbone', 'streamhub-ticker/views/TickerView'],
   	function(Hub, View) {
