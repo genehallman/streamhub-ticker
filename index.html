@@ -256,24 +256,24 @@ $ npm start
 
   <script type="text/javascript">
     require.config({
-	  baseUrl: 'components',
+      baseUrl: 'components',
       paths: {
-   	    jquery: 'jquery/jquery',
-    	text: 'requirejs-text/text',
+        jquery: 'jquery/jquery',
+        text: 'requirejs-text/text',
         backbone: 'backbone/backbone',
         underscore: 'underscore/underscore',
         mustache: 'mustache/mustache',
         isotope: 'isotope/jquery.isotope',
         fyre: 'http://zor.labs-t402.fyre.co/wjs/v3.0/javascripts/livefyre',
       },
-	  packages: [ {
-		name: 'streamhub-backbone',
-		location: 'streamhub-backbone'
-	  },
-	  {
-		name: "streamhub-ticker",
-      	location: "streamhub-ticker/src"
-	  }],
+      packages: [ {
+        name: 'streamhub-backbone',
+        location: 'streamhub-backbone'
+      },
+      {
+        name: "streamhub-ticker",
+        location: "streamhub-ticker/src"
+      }],
       shim: {
         backbone: {
             deps: ['underscore', 'jquery'],
