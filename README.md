@@ -58,8 +58,8 @@ Once you've called bower install, you'll have a suite of components available to
     require.config({
       baseUrl: 'components',
       paths: {
-	jquery: 'jquery/jquery',
-    	text: 'requirejs-text/text',
+        jquery: 'jquery/jquery',
+        text: 'requirejs-text/text',
         backbone: 'backbone/backbone',
         underscore: 'underscore/underscore',
         mustache: 'mustache/mustache',
@@ -67,12 +67,12 @@ Once you've called bower install, you'll have a suite of components available to
         fyre: 'http://zor.t402.livefyre.com/wjs/v3.0/javascripts/livefyre',
       },
       packages: [ {
-	name: 'streamhub-backbone',
-	location: 'streamhub-backbone'
+        name: 'streamhub-backbone',
+        location: 'streamhub-backbone'
       },
       {
-	name: "streamhub-ticker",
-      	location: "streamhub-ticker/src"
+        name: "streamhub-ticker",
+        location: "streamhub-ticker/src"
       }],
       shim: {
         backbone: {
