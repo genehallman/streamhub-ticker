@@ -1,4 +1,4 @@
-require.config({
+requirejs.config({
   paths: {
     jquery: 'lib/jquery/jquery',
     underscore: 'lib/underscore/underscore',
