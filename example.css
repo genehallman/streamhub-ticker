@@ -1,0 +1,66 @@
+.hub-TickerView {
+    white-space:nowrap;
+    height:515px;
+    overflow-x:scroll;
+    overflow-y:hidden;
+}
+.hub-TickerView #tickerHolder {
+    height:500px;
+    overflow:hidden;
+}
+
+.hub-TickerView .hub-item {
+    padding:0;
+    margin: 0;
+    cursor: pointer;
+    width:115px;
+    display:inline-block;
+    vertical-align:bottom;
+    white-space:normal;
+}
+
+.hub-TickerView .hub-item .item-feed-view {
+    height:400px;
+    width:100px;
+    overflow-y:hidden;
+    overflow-x:hidden;
+    position:relative;
+}
+
+.hub-TickerView .hub-item .item-content-view {
+    height:100px;
+    width:100px;
+    overflow:hidden;
+    background-color:white;
+    padding:0;
+    margin:0;
+    vertical-align:top;
+}
+
+.hub-TickerView .hub-feed-item {
+    height:100px;
+    width:100px;
+    overflow:hidden;
+    background-color:white;
+    padding:0;
+    margin:0;
+    vertical-align:top;
+    position:relative;
+}
+.hub-TickerView .hub-feed-item-holder {
+    max-height:400px;
+    width:115px;
+    position:absolute;
+    bottom:0px;
+    overflow-y:scroll;
+    overflow-x:hidden;
+}
+.hub-TickerView .hub-content {
+    position:relative;
+}
+.hub-TickerView .hub-heading .hub-timestamp {
+    float:none;
+    position:absolute;
+    bottom:0;
+    left:0;
+}
