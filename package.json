@@ -17,7 +17,7 @@
     "test": "open tests/index.html",
     "start": "./node_modules/http-server/bin/http-server"
   },
-  "streamhub" {
+  "streamhub": {
     "sampleImage": "https://drive.google.com/uc?id=0BwAX440-rUypRDU5ZVRraFprVHc"
   }
 }
