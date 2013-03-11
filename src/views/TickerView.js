@@ -67,9 +67,9 @@ var TickerView = Backbone.View.extend(
     className: "hub-TickerView",
     
     /**
-	 * Renders a TickerView. Fades the view's holding element into view, and scrolls to the latest
-	 * item.
-	 */
+     * Renders a TickerView. Fades the view's holding element into view, and scrolls to the latest
+     * item.
+     */
     render: function () {
         this.$el.fadeIn();
         // Scroll to latest tick
