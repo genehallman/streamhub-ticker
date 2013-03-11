@@ -16,6 +16,7 @@ var Backbone = require('backbone'),
  * @param {Object.<string, *>} opts.sources A set of source specific options.
  */
 var FeedTickerView = Backbone.View.extend(
+/** @lends FeedTickerView.prototype */
 {
 	/**
 	 * Initializes a FeedTickerView, and is called by backbone during view construction.

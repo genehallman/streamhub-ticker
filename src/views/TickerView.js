@@ -21,6 +21,7 @@ var Backbone = require('backbone'),
  *        item that contains the meta data for this content item. 
  */
 var TickerView = Backbone.View.extend(
+/** @lends TickerView.prototype */
 {
 	/**
 	 * Initializes a TickerView, and is called by backbone during view construction.
