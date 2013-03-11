@@ -18,12 +18,12 @@ var Backbone = require('backbone'),
 var FeedTickerView = Backbone.View.extend(
 /** @lends FeedTickerView.prototype */
 {
-	/**
-	 * Initializes a FeedTickerView, and is called by backbone during view construction.
-	 * Creates a couple of div's for styling and structure, then binds to the collection's add event.
-	 * @param {Object.<string, *>} opts A set of options to configure this instance.
-	 * @protected
-	 */
+    /**
+     * Initializes a FeedTickerView, and is called by backbone during view construction.
+     * Creates a couple of div's for styling and structure, then binds to the collection's add event.
+     * @param {Object.<string, *>} opts A set of options to configure this instance.
+     * @protected
+     */
     initialize: function (opts) {
     	opts = opts || {};
         this.$el.addClass(this.className);
@@ -48,15 +48,15 @@ var FeedTickerView = Backbone.View.extend(
     },
 
     /**
-     * className The css class name that this object will apply to it's holding element
+     * The css class name that this object will apply to it's holding element
      * @type {string} 
      * @default hub-FeedTickerView
      */
     className: "hub-FeedTickerView",
 
     /**
-	 * Renders a FeedTickerView. Fades the view's holding element into view.
-	 */
+     * Renders a FeedTickerView. Fades the view's holding element into view.
+     */
     render: function () {
         this.$el.fadeIn();
     }
