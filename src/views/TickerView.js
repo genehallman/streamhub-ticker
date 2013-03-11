@@ -23,12 +23,12 @@ var Backbone = require('backbone'),
 var TickerView = Backbone.View.extend(
 /** @lends TickerView.prototype */
 {
-	/**
-	 * Initializes a TickerView, and is called by backbone during view construction.
-	 * Creates a couple of div's for styling and structure, then binds to the collection's add event.
-	 * @param {Object.<string, *>} opts A set of options to configure this instance (@see constructor).
-	 * @protected
-	 */
+    /**
+     * Initializes a TickerView, and is called by backbone during view construction.
+     * Creates a couple of div's for styling and structure, then binds to the collection's add event.
+     * @param {Object.<string, *>} opts A set of options to configure this instance (@see constructor).
+     * @protected
+     */
     initialize: function (opts) {
         opts = opts || {};
         var self = this;
