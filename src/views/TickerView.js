@@ -60,7 +60,8 @@ var TickerView = Backbone.View.extend(
     },
     
     /**
-     * @property {string} className The css class name that this object will apply to it's holding element
+     * className The css class name that this object will apply to it's holding element
+     * @type {string} 
      * @default hub-TickerView
      */    
     className: "hub-TickerView",
