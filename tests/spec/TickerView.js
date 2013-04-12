@@ -1,9 +1,11 @@
 define([
-    'jasmine-jquery',
+    'jasmine',
     'streamhub-ticker/views/TickerView',
-    'streamhub-backbone',
-    '../MockHubCollection'],
-function (jasmine, TickerView, Hub, MockHubCollection) {
+    'streamhub-sdk',
+    'streamhub-sdk/streams',
+    '../MockStream',
+    'jasmine-jquery'],
+function (jasmine, TickerView, Hub, Streams, MockStream) {
 describe('A TickerView', function () {
     it ("can have tests run", function () {
         expect(true).toBe(true);
@@ -28,7 +30,7 @@ describe('A TickerView', function () {
     	});
     	it ("with only a Mock Hub.Collection", function () {
         	var view = new TickerView({
-            	collection: new MockHubCollection()
+            	streams: new Streams({main: new MockStream()})
         	});
     	    expect(view).toBeDefined();
     	});
@@ -42,7 +44,7 @@ describe('A TickerView', function () {
 	    it ("with an el and Mock Hub.Collection", function () {
 	        setFixtures('<div id="hub-TickerView"></div>');  
 	        var view = new TickerView({
-	            collection: new MockHubCollection(),
+	            streams: new Streams({main: new MockStream()}),
 	            el: $('#hub-TickerView')
 	        });
 	        expect(view).toBeDefined();
@@ -50,9 +52,9 @@ describe('A TickerView', function () {
 	    it ("with an el and Mock Hub.Collection and a mock feed collection", function () {
 	        setFixtures('<div id="hub-TickerView"></div>');  
 	        var view = new TickerView({
-	            collection: new MockHubCollection(),
+	            streams: new Streams({main: new MockStream()}),
 	            el: $('#hub-TickerView'),
-	            feedCollection: new MockHubCollection()
+	            feedStreams: new Streams({main: new MockStream()})
 	        });
 	        expect(view).toBeDefined();
 	    });
@@ -64,57 +66,90 @@ describe('A TickerView', function () {
 	    
 	    beforeEach(function() {
 	        setFixtures(
-		        '<style>.hub-item{margin:0;padding:0;display:inline-block;width:50px;'+
+		        '<style>.hub-item{margin:0;padding:0;display:inline-block;width:50px;height:1px;'+
 		        'overflow:hidden;}</style><div style="position:relative;">'+
-		        '<div id="hub-TickerView" style="position:absolute;overflow-x:scroll;'+
+		        '<div id="hub-TickerView" style="position:absolute;overflow-x:scroll;height:0px;'+
 		        'white-space:nowrap;"></div></div>'
 		    );
 	        view = new TickerView({
-	            collection: new MockHubCollection(),
-	            el: $('#hub-TickerView'),
-	            feedCollection: new MockHubCollection()
+	            streams: new Streams({main: new MockStream()}),
+	            el: $('#hub-TickerView').get(0),
+	            feedStreams: new Streams({main: new MockStream()})
 	        });
 		});
-        it ("should contain 53 mock items & childViews after setRemote", function () {
-            view.collection.setRemote({});
-            expect(Object.keys(view.childViews).length).toBe(53);
-            expect(view.$el.find('.hub-item').length).toBe(53);
+        it ("should contain 50 mock items & childViews after setRemote", function () {
+            view.streams.start();
+            expect(Object.keys(view.childViews).length).toBe(50);
+            expect(view.$el.find('.hub-item').length).toBe(50);
         });
         it ("should have scrolled all the way right after data was received", function () {
             view.$el.width(100);
-            view.collection.setRemote({});
-            view.$el.stop(true, true);
-            expect(view.$el[0].scrollWidth).toBe(53 * 50); //items.count * item.width
-            expect(view.$el.scrollLeft()).toBe(50 * 50 - 100); //bootstrap * item.width - el.width
+            
+            var spy = jasmine.createSpy();
+            view.on('add', spy);
+            view.streams.start();
+            waitsFor(function() {
+                return spy.callCount == 50 && !view.isScrolling;
+            });
+            runs(function() {
+                expect(spy.callCount).toBe(50);
+	            expect(view.$el[0].scrollWidth).toBe(50 * 50); //items.count * item.width
+	            expect(view.$el.scrollLeft()).toBe(50 * 50 - 100); //bootstrap * item.width - el.width
+                expect(view.$el.find('article.content').length).toBe(50);
+            });                   
         });
         it ("should be scrollable to a piece of content", function () {
             view.$el.width(100);
-            view.collection.setRemote({});
+            view.streams.start();
             view.$el.stop(true, true);
 
-            view.scrollTo('52');
+            view.scrollTo('49');
+            waitsFor(function() {
+                return !view.isScrolling;
+            });
+            runs(function() {
+	            expect(view.$el.scrollLeft()).toBe(50 * 50 - 100); //item.id+1 * item.width - el.width);
+            });
+        });
+        it ("should be scrollable to a piece of content", function () {
+            view.$el.width(100);
+            view.streams.start();
             view.$el.stop(true, true);
-            expect(view.$el.scrollLeft()).toBe(53 * 50 - 100); //item.id+1 * item.width - el.width);
 
+            
             view.scrollTo('0');
+            waitsFor(function() {
+                return !view.isScrolling;
+            });
+            runs(function() {
+                expect(view.$el.scrollLeft()).toBe(0); // it will stop at 0
+            });
+        });
+        it ("should be scrollable to a piece of content", function () {
+            view.$el.width(100);
+            view.streams.start();
             view.$el.stop(true, true);
-            expect(view.$el.scrollLeft()).toBe(0); // it will stop at 0
+
 
             view.scrollTo('19');
-            view.$el.stop(true, true);
-            expect(view.$el.scrollLeft()).toBe(20 * 50 - 100); //item.id+1 * item.width - el.width
+            waitsFor(function() {
+                return !view.isScrolling;
+            });
+            runs(function() {
+	            expect(view.$el.scrollLeft()).toBe(20 * 50 - 100); //item.id+1 * item.width - el.width
+            });
         });
         it ("should have populated the feed view collections after feedCol.setRemote", function () {
-            view.collection.setRemote({});
-            view.feedCollection.setRemote({});
+            view.streams.start();
+            view.feedStreams.start();
             var keys = Object.keys(view.childViews);
             var total = 0;
             for (i in keys) {
-            	feedCol = view.childViews[keys[i]].feedView.collection;
+            	feedCol = Object.keys(view.childViews[keys[i]].feedView.childContent);
             	total = total + feedCol.length;
             	expect(feedCol.length).toBeLessThan(3);
             }
-        	expect(total).toBe(53);
+        	expect(total).toBe(50);
         });
     });
 }); 

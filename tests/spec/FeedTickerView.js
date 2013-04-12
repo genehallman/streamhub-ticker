@@ -1,9 +1,11 @@
 define([
-    'jasmine-jquery',
+    'jasmine',
     'streamhub-ticker/views/FeedTickerView',
-    'streamhub-backbone',
-    '../MockHubCollection'],
-function (jasmine, FeedTickerView, Hub, MockHubCollection) {
+    'streamhub-sdk',
+    'streamhub-sdk/streams',
+    '../MockStream',
+    'jasmine-jquery'],
+function (jasmine, FeedTickerView, Hub, Streams, MockStream) {
 describe('A FeedTickerView', function () {
     it ("can have tests run", function () {
         expect(true).toBe(true);
@@ -28,21 +30,21 @@ describe('A FeedTickerView', function () {
     	});
     	it ("with only a Mock Hub.Collection", function () {
         	var view = new FeedTickerView({
-            	collection: new MockHubCollection()
+            	streams: new Streams({main: new MockStream()})
         	});
     	    expect(view).toBeDefined();
     	});
 	    it ("with an el", function () {
 	        setFixtures('<div id="hub-FeedTickerView"></div>');  
 	        var view = new FeedTickerView({
-	            el: $('#hub-FeedTickerView')
+	            el: $('#hub-FeedTickerView').get(0)
 	        });
 	        expect(view).toBeDefined();
 	    });
 	    it ("with an el and Mock Hub.Collection", function () {
 	        setFixtures('<div id="hub-FeedTickerView"></div>');  
 	        var view = new FeedTickerView({
-	            collection: new MockHubCollection(),
+	            collection: new Streams({main: new MockStream()}),
 	            el: $('#hub-FeedTickerView')
 	        });
 	        expect(view).toBeDefined();
@@ -52,15 +54,24 @@ describe('A FeedTickerView', function () {
 	// post construction behavior    
     describe ("after correct construction", function () {
 	    
-        it ("should contain 53 mock items after setRemote", function () {
+        it ("should contain 50 mock items after streams.start()", function () {
 	        setFixtures('<div id="hub-FeedTickerView"></div>');
 		    var view = new FeedTickerView({
-	            collection: new MockHubCollection(),
-	            el: $('#hub-FeedTickerView'),
+	            streams: new Streams({main: new MockStream()}),
+	            el: $('#hub-FeedTickerView').get(0),
 	        });
 	        
-            view.collection.setRemote({});
-            expect(view.$el.find('.hub-feed-item').length).toBe(53);
+	        var spy = jasmine.createSpy();
+	        view.on('add', spy);
+            view.streams.start();
+            waitsFor(function() {
+                return spy.callCount == 50;
+            });
+            runs(function() {
+                expect(spy.callCount).toBe(50);
+	            expect(view.$el.find('article.content').length).toBe(50);
+            });                            
+            
         });
     });
 }); 
