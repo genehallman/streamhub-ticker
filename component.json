@@ -5,6 +5,6 @@
     "./src/main.js"
   ],
   "dependencies": {
-    "streamhub-sdk": "git://github.com/genehallman/streamhub-sdk.git#v1.0.0-build.112"
+    "streamhub-sdk": "git://github.com/genehallman/streamhub-sdk.git#v1.0.0-build.116"
   }
 }
