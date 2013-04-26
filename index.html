@@ -113,33 +113,33 @@
             articleId: "labs_demo_fire",
             environment: "t402.livefyre.com"
         };
-        var streams = Hub.Streams.forCollection(opts);
-        var feedStreams = Hub.Streams.forCollection(feedOpts);
-        
+        var streams = Hub.StreamManager.create.livefyreStreams(opts);
+        var feedStreams = Hub.StreamManager.create.livefyreStreams(feedOpts);
+
         var view = window.view = new View({
-            streams: streams,
             el: document.getElementById("example"),
             feedStreams: feedStreams
         });
-        streams.start();
-        feedStreams.start();
+        streams.bind(view).start();
 
         $('#postMessage').click(function() {
             $('#status').text('Submitting...');
             var stream = $('input[name=colSelect]:checked').val() == "feed" ? feedStreams : streams;
    
-            stream.get('main').write({
-                lftoken: $('#userToken').val(),
-                body: $('#newMessage').val(),
-                callback: function(err, data) {
+            stream.get('main').write(
+                $('#newMessage').val(),
+                {
+                    lftoken: $('#userToken').val()
+                },
+                function(err, data) {
                     if (err) {
                         $('#status').text('Failed: ' + JSON.stringify(data));
                     } else {
                         $('#status').text('Success: ' + JSON.stringify(data));
                         $('#newMessage').val('');
                     }
-                 }
-            });
+                }
+            );
              
             return false;
         });

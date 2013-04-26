@@ -1,8 +1,9 @@
 /** @module TickerView */
 
 define(function(require) {
-	var FeedTickerView = require('streamhub-ticker/views/FeedTickerView');
-	var View = require('streamhub-sdk/view');
+    var FeedTickerView = require('streamhub-ticker/views/FeedTickerView');
+    var Hub = require('streamhub-sdk');
+    var View = require('streamhub-sdk/view');
     var Util = require('streamhub-sdk/util');
 	
 	/**
@@ -35,15 +36,12 @@ define(function(require) {
         this.childViews = {};
         this.metaElement = opts.metaElement;
 
-        if (self.feedStreams && self.feedStreams.on) {
-	        self.feedStreams.on('readable', function (stream) {
-	            var content = stream.read();
-	            self.addFeedItem(content);
-	        });
-        }
-        self.on('add', function(content, stream) {
-            self.add(content);
-        });
+        var FeedTickerContentAdder = {
+            add: function(content, stream) {
+                self.addFeedItem.apply(self, arguments);
+            }
+        };
+        this.feedStreams.bind(FeedTickerContentAdder).start();
     };
     $.extend(TickerView.prototype, View.prototype);
 
