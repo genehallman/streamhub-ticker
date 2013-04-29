@@ -44,7 +44,6 @@ define(function(require) {
         if (this.feedStreams) {
             var FeedTickerContentAdder = {
                 add: function(content, stream) {
-                    //console.warn(content, stream);
                     self.addFeedItem.apply(self, arguments);
                 }
             };
