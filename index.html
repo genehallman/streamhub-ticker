@@ -99,7 +99,7 @@
   
   <script type="text/javascript">
     // Now to load the example
-    require(['streamhub-sdk', 'streamhub-ticker/views/TickerView',  'jquery'],
+    require(['streamhub-sdk', 'streamhub-ticker/views/TickerView', 'jquery'],
     function(Hub, View, $) {
         var opts = {
             network: "labs-t402.fyre.co",
@@ -116,11 +116,11 @@
         var streams = Hub.StreamManager.create.livefyreStreams(opts);
         var feedStreams = Hub.StreamManager.create.livefyreStreams(feedOpts);
 
-        var view = window.view = new View({
-            el: document.getElementById("example"),
-            streams: streams,
-            feedStreams: feedStreams
+        var tickerView = window.view = new View({
+            el: document.getElementById("example")
         });
+        streams.bind(tickerView.main).start();
+        feedStreams.bind(tickerView.feed).start();
 
         $('#postMessage').click(function() {
             $('#status').text('Submitting...');

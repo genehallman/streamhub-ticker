@@ -32,23 +32,21 @@ define(function(require) {
         this.$el.hide();
         this.$el.fadeIn();
 
-        this.streams = opts.streams;
-        this.feedStreams = opts.feedStreams;
+        var TickerContentAdder = {
+            add: function(content, stream) {
+                self.add.apply(self, arguments);
+            }
+        };
+        var FeedTickerContentAdder = {
+            add: function(content, stream) {
+                self.addFeedItem.apply(self, arguments);
+            }
+        };
+        this.main = TickerContentAdder;
+        this.feed = FeedTickerContentAdder;
+
         this.childViews = {};
         this.metaElement = opts.metaElement;
-
-        if (this.streams) {
-            this.streams.bind(this).start();
-        }
-
-        if (this.feedStreams) {
-            var FeedTickerContentAdder = {
-                add: function(content, stream) {
-                    self.addFeedItem.apply(self, arguments);
-                }
-            };
-            this.feedStreams.bind(FeedTickerContentAdder).start();
-        }
     };
     $.extend(TickerView.prototype, View.prototype);
 

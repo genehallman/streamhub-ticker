@@ -19,7 +19,7 @@ describe('A TickerView', function () {
 	
 	// construction behavior
     describe('can be constructed', function() {
-    	it ("with no options", function () {
+        it ("with no options", function () {
 	        var view = new TickerView();
         	expect(view).toBeDefined();
     	});
@@ -31,27 +31,6 @@ describe('A TickerView', function () {
 	        setFixtures('<div id="hub-TickerView"></div>');  
 	        var view = new TickerView({
 	            el: $('#hub-TickerView')
-	        });
-	        expect(view).toBeDefined();
-	    });
-	    it ("with an el and a mock Ticker stream", function () {
-	        setFixtures('<div id="hub-TickerView"></div>');
-	        var streams = new Hub.StreamManager({main: new MockStream()});
-            var feedStreams = new Hub.StreamManager({'feedStream': new Hub.Stream()});
-	        var view = new TickerView({
-	            el: $('#hub-TickerView'),
-                streams: streams
-	        });
-	        expect(view).toBeDefined();
-	    });
-	    it ("with an el, a mock Ticker stream, and a mock Feed stream", function () {
-	        setFixtures('<div id="hub-TickerView"></div>');  
-	        var streams = new Hub.StreamManager({main: new MockStream()});
-            var feedStreams = new Hub.StreamManager({'feedStream': new Hub.Stream()});
-	        var view = new TickerView({
-	            el: $('#hub-TickerView'),
-                streams: streams,
-	            feedStreams: feedStreams
 	        });
 	        expect(view).toBeDefined();
 	    });
@@ -71,13 +50,14 @@ describe('A TickerView', function () {
 		        'white-space:nowrap;"></div></div>'
 		    );
             spy = jasmine.createSpy();
-	        streams = new Hub.StreamManager({main: new MockStream()})
+	        streams = new Hub.StreamManager({main: new MockStream()});
             streams.on('readable', spy);
+            var feedStreams = new Hub.StreamManager({main: new MockStream()});
 	        view = new TickerView({
-	            el: $('#hub-TickerView').get(0),
-                streams: streams,
-	            feedStreams: new Hub.StreamManager({main: new MockStream()})
+	            el: $('#hub-TickerView').get(0)
 	        });
+            streams.bind(view.main).start();
+            feedStreams.bind(view.feed).start();
 		});
         it ("should contain 50 mock items & childViews after stream start", function () {
             expect(Object.keys(view.childViews).length).toBe(50);
