@@ -1,8 +1,9 @@
 /** @module TickerView */
 
 define(function(require) {
-	var FeedTickerView = require('streamhub-ticker/views/FeedTickerView');
-	var View = require('streamhub-sdk/view');
+    var FeedTickerView = require('streamhub-ticker/views/FeedTickerView');
+    var Hub = require('streamhub-sdk');
+    var View = require('streamhub-sdk/view');
     var Util = require('streamhub-sdk/util');
 	
 	/**
@@ -31,19 +32,21 @@ define(function(require) {
         this.$el.hide();
         this.$el.fadeIn();
 
-        this.feedStreams = opts.feedStreams;
+        var TickerContentAdder = {
+            add: function(content, stream) {
+                self.add.apply(self, arguments);
+            }
+        };
+        var FeedTickerContentAdder = {
+            add: function(content, stream) {
+                self.addFeedItem.apply(self, arguments);
+            }
+        };
+        this.main = TickerContentAdder;
+        this.feed = FeedTickerContentAdder;
+
         this.childViews = {};
         this.metaElement = opts.metaElement;
-
-        if (self.feedStreams && self.feedStreams.on) {
-	        self.feedStreams.on('readable', function (stream) {
-	            var content = stream.read();
-	            self.addFeedItem(content);
-	        });
-        }
-        self.on('add', function(content, stream) {
-            self.add(content);
-        });
     };
     $.extend(TickerView.prototype, View.prototype);
 
@@ -176,7 +179,7 @@ define(function(require) {
 	    // parse the tree
 	    var itemCreatedAt = item.createdAt*1000;
 	    var keys = Object.keys(this.childViews).sort();
-	
+
 	    if (keys.length === 0) {
 	        return;
 	    }

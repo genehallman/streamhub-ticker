@@ -2,10 +2,9 @@ define([
     'jasmine',
     'streamhub-ticker/views/TickerView',
     'streamhub-sdk',
-    'streamhub-sdk/streams',
     '../MockStream',
     'jasmine-jquery'],
-function (jasmine, TickerView, Hub, Streams, MockStream) {
+function (jasmine, TickerView, Hub, MockStream) {
 describe('A TickerView', function () {
     it ("can have tests run", function () {
         expect(true).toBe(true);
@@ -20,19 +19,13 @@ describe('A TickerView', function () {
 	
 	// construction behavior
     describe('can be constructed', function() {
-    	it ("with no options", function () {
+        it ("with no options", function () {
 	        var view = new TickerView();
         	expect(view).toBeDefined();
     	});
     	it ("with empty options", function () {
         	var view = new TickerView({});
         	expect(view).toBeDefined();
-    	});
-    	it ("with only a Mock Hub.Collection", function () {
-        	var view = new TickerView({
-            	streams: new Streams({main: new MockStream()})
-        	});
-    	    expect(view).toBeDefined();
     	});
 	    it ("with an el", function () {
 	        setFixtures('<div id="hub-TickerView"></div>');  
@@ -41,28 +34,13 @@ describe('A TickerView', function () {
 	        });
 	        expect(view).toBeDefined();
 	    });
-	    it ("with an el and Mock Hub.Collection", function () {
-	        setFixtures('<div id="hub-TickerView"></div>');  
-	        var view = new TickerView({
-	            streams: new Streams({main: new MockStream()}),
-	            el: $('#hub-TickerView')
-	        });
-	        expect(view).toBeDefined();
-	    });
-	    it ("with an el and Mock Hub.Collection and a mock feed collection", function () {
-	        setFixtures('<div id="hub-TickerView"></div>');  
-	        var view = new TickerView({
-	            streams: new Streams({main: new MockStream()}),
-	            el: $('#hub-TickerView'),
-	            feedStreams: new Streams({main: new MockStream()})
-	        });
-	        expect(view).toBeDefined();
-	    });
 	});
 	
 	// post construction behavior    
     describe ("after correct construction", function () {
 	    var view;
+        var streams;
+        var spy;
 	    
 	    beforeEach(function() {
 	        setFixtures(
@@ -71,23 +49,25 @@ describe('A TickerView', function () {
 		        '<div id="hub-TickerView" style="position:absolute;overflow-x:scroll;height:0px;'+
 		        'white-space:nowrap;"></div></div>'
 		    );
+            spy = jasmine.createSpy();
+	        streams = new Hub.StreamManager({main: new MockStream()});
+            streams.on('readable', spy);
+            var feedStreams = new Hub.StreamManager({main: new MockStream()});
 	        view = new TickerView({
-	            streams: new Streams({main: new MockStream()}),
-	            el: $('#hub-TickerView').get(0),
-	            feedStreams: new Streams({main: new MockStream()})
+	            el: $('#hub-TickerView').get(0)
 	        });
+            streams.bind(view.main).start();
+            feedStreams.bind(view.feed).start();
 		});
-        it ("should contain 50 mock items & childViews after setRemote", function () {
-            view.streams.start();
+        it ("should contain 50 mock items & childViews after stream start", function () {
             expect(Object.keys(view.childViews).length).toBe(50);
+            expect(view.$el.find('.hub-item').length).toBe(50);
+            expect(spy.callCount).toBe(50);
             expect(view.$el.find('.hub-item').length).toBe(50);
         });
         it ("should have scrolled all the way right after data was received", function () {
             view.$el.width(100);
             
-            var spy = jasmine.createSpy();
-            view.on('add', spy);
-            view.streams.start();
             waitsFor(function() {
                 return spy.callCount == 50 && !view.isScrolling;
             });
@@ -95,12 +75,11 @@ describe('A TickerView', function () {
                 expect(spy.callCount).toBe(50);
 	            expect(view.$el[0].scrollWidth).toBe(50 * 50); //items.count * item.width
 	            expect(view.$el.scrollLeft()).toBe(50 * 50 - 100); //bootstrap * item.width - el.width
-                expect(view.$el.find('article.content').length).toBe(50);
+                expect(view.$el.find('.hub-item').length).toBe(50);
             });                   
         });
         it ("should be scrollable to a piece of content", function () {
             view.$el.width(100);
-            view.streams.start();
             view.$el.stop(true, true);
 
             view.scrollTo('49');
@@ -113,7 +92,6 @@ describe('A TickerView', function () {
         });
         it ("should be scrollable to a piece of content", function () {
             view.$el.width(100);
-            view.streams.start();
             view.$el.stop(true, true);
 
             
@@ -127,7 +105,6 @@ describe('A TickerView', function () {
         });
         it ("should be scrollable to a piece of content", function () {
             view.$el.width(100);
-            view.streams.start();
             view.$el.stop(true, true);
 
 
@@ -139,9 +116,8 @@ describe('A TickerView', function () {
 	            expect(view.$el.scrollLeft()).toBe(20 * 50 - 100); //item.id+1 * item.width - el.width
             });
         });
-        it ("should have populated the feed view collections after feedCol.setRemote", function () {
-            view.streams.start();
-            view.feedStreams.start();
+        it ("should have populated the feed view collections after feedStream starts", function () {
+
             var keys = Object.keys(view.childViews);
             var total = 0;
             for (i in keys) {
