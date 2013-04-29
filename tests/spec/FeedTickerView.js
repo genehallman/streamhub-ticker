@@ -2,10 +2,9 @@ define([
     'jasmine',
     'streamhub-ticker/views/FeedTickerView',
     'streamhub-sdk',
-    'streamhub-sdk/streams',
     '../MockStream',
     'jasmine-jquery'],
-function (jasmine, FeedTickerView, Hub, Streams, MockStream) {
+function (jasmine, FeedTickerView, Hub, MockStream) {
 describe('A FeedTickerView', function () {
     it ("can have tests run", function () {
         expect(true).toBe(true);
@@ -28,24 +27,10 @@ describe('A FeedTickerView', function () {
         	var view = new FeedTickerView({});
         	expect(view).toBeDefined();
     	});
-    	it ("with only a Mock Hub.Collection", function () {
-        	var view = new FeedTickerView({
-            	streams: new Streams({main: new MockStream()})
-        	});
-    	    expect(view).toBeDefined();
-    	});
 	    it ("with an el", function () {
 	        setFixtures('<div id="hub-FeedTickerView"></div>');  
 	        var view = new FeedTickerView({
 	            el: $('#hub-FeedTickerView').get(0)
-	        });
-	        expect(view).toBeDefined();
-	    });
-	    it ("with an el and Mock Hub.Collection", function () {
-	        setFixtures('<div id="hub-FeedTickerView"></div>');  
-	        var view = new FeedTickerView({
-	            collection: new Streams({main: new MockStream()}),
-	            el: $('#hub-FeedTickerView')
 	        });
 	        expect(view).toBeDefined();
 	    });
@@ -55,15 +40,15 @@ describe('A FeedTickerView', function () {
     describe ("after correct construction", function () {
 	    
         it ("should contain 50 mock items after streams.start()", function () {
+            var feedStreams = new Hub.StreamManager({main: new MockStream()});
 	        setFixtures('<div id="hub-FeedTickerView"></div>');
 		    var view = new FeedTickerView({
-	            streams: new Streams({main: new MockStream()}),
-	            el: $('#hub-FeedTickerView').get(0),
+	            el: $('#hub-FeedTickerView').get(0)
 	        });
-	        
+
 	        var spy = jasmine.createSpy();
-	        view.on('add', spy);
-            view.streams.start();
+	        feedStreams.on('readable', spy);
+            feedStreams.bind(view).start();
             waitsFor(function() {
                 return spy.callCount == 50;
             });

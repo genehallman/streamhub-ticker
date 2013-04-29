@@ -118,9 +118,9 @@
 
         var view = window.view = new View({
             el: document.getElementById("example"),
+            streams: streams,
             feedStreams: feedStreams
         });
-        streams.bind(view).start();
 
         $('#postMessage').click(function() {
             $('#status').text('Submitting...');

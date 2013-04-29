@@ -32,16 +32,24 @@ define(function(require) {
         this.$el.hide();
         this.$el.fadeIn();
 
+        this.streams = opts.streams;
         this.feedStreams = opts.feedStreams;
         this.childViews = {};
         this.metaElement = opts.metaElement;
 
-        var FeedTickerContentAdder = {
-            add: function(content, stream) {
-                self.addFeedItem.apply(self, arguments);
-            }
-        };
-        this.feedStreams.bind(FeedTickerContentAdder).start();
+        if (this.streams) {
+            this.streams.bind(this).start();
+        }
+
+        if (this.feedStreams) {
+            var FeedTickerContentAdder = {
+                add: function(content, stream) {
+                    //console.warn(content, stream);
+                    self.addFeedItem.apply(self, arguments);
+                }
+            };
+            this.feedStreams.bind(FeedTickerContentAdder).start();
+        }
     };
     $.extend(TickerView.prototype, View.prototype);
 
@@ -174,7 +182,7 @@ define(function(require) {
 	    // parse the tree
 	    var itemCreatedAt = item.createdAt*1000;
 	    var keys = Object.keys(this.childViews).sort();
-	
+
 	    if (keys.length === 0) {
 	        return;
 	    }
