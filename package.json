@@ -18,6 +18,6 @@
     "start": "./node_modules/http-server/bin/http-server"
   },
   "streamhub": {
-    "sampleImage": "https://drive.google.com/uc?id=0BwAX440-rUypRDU5ZVRraFprVHc"
+    "sampleImages": ["https://drive.google.com/uc?id=0BwAX440-rUypRDU5ZVRraFprVHc"]
   }
 }
