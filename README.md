@@ -29,7 +29,7 @@ Bower can be used to automatically download streamhub-ticker and its dependency 
 $ bower install git://github.com/genehallman/streamhub-ticker.git
 ```
 
-#### Use via Require.js
+### Use via Require.js
 Once you've called bower install, you'll have a suite of components available to you in the ```./components``` directory. These can be accessed via Require.js, as shown below.
 
     <!-- Get requirejs -->
