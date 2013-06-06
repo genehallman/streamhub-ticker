@@ -75,7 +75,7 @@ define(function(require) {
 	
 	    var itemMetaEl = $('<div>' + item.body + '</div>').find(this.metaElement);
 	    var itemMeta = {};
-	    try { itemMeta = JSON.parse(itemMetaEl.text()); } catch (ex) {}
+	    try { itemMeta = JSON.parse(itemMetaEl.text()) || {}; } catch (ex) {}
 	
 	    itemEl
 	      .addClass('hub-item')
