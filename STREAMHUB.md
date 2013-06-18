@@ -14,7 +14,7 @@ Add a real-time news ticker to your website to keep your users informed about br
 
 ## See it in Action
 
-streamhub-ticker was created to show live, play-by-play coverage for a Livefyre SocialHub during the 2013 Super Bowl. Check it out at [superbowl.livefyre.com](http://superbowl.livefyre.com/#/media).
+streamhub-ticker was created to show live, play-by-play coverage for a Livefyre SocialHub during the 2013 Super Bowl. Check it out at [superbowl.livefyre.com](http://superbowl.livefyre.com).
 
 Several Live Bloggers submitted play-by-play Content, polls, trivia, and sponsor messages into streamhub-ticker, while fan reactions from twitter stacked on top of each play or penalty.
 
