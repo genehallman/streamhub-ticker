@@ -6,5 +6,15 @@
   ],
   "dependencies": {
     "streamhub-sdk": "git://github.com/Livefyre/streamhub-sdk.git#v1.0.0-build.126"
+  },
+  "streamhub": {
+    "icon": "https://raw.github.com/genehallman/streamhub-ticker/master/images/ticker-thumbbigHF-302x227.png",
+    "iconHover": "https://raw.github.com/genehallman/streamhub-ticker/master/images/ticker-thumbbigLF-302x227.png",
+    "background": "https://raw.github.com/genehallman/streamhub-ticker/master/images/appgallery-ticker-v5.jpg",
+    "sampleImages": [
+      "https://raw.github.com/genehallman/streamhub-ticker/master/images/ticker-thumbprev-700x525_1.png",
+      "https://raw.github.com/genehallman/streamhub-ticker/master/images/ticker-thumbprev-700x525_2.png",
+      "https://raw.github.com/genehallman/streamhub-ticker/master/images/ticker-thumbprev-700x525_3.png"
+    ]
   }
 }
