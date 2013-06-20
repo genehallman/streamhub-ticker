@@ -1,8 +1,7 @@
 /** @module FeedTickerView */
 
-define(function(require) {
-    var $ = require('streamhub-zepto');
-    var View = require('streamhub-sdk/view');
+define(['streamhub-zepto', 'streamhub-sdk/view'],
+function($, View) {
 
 	/**
 	 * FeedTickerView is a view of Streamhub data that is structured as a feed, above a TickerView.

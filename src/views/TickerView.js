@@ -1,12 +1,13 @@
 /** @module TickerView */
 
-define(function(require) {
-    var $ = require('streamhub-zepto');
-    var FeedTickerView = require('streamhub-ticker/views/FeedTickerView');
-    var Hub = require('streamhub-sdk');
-    var View = require('streamhub-sdk/view');
-    var Util = require('streamhub-sdk/util');
-    var css = require('text!streamhub-ticker/main.css');
+define([
+    'streamhub-zepto',
+    'streamhub-ticker/views/FeedTickerView',
+    'streamhub-sdk',
+    'streamhub-sdk/view',
+    'streamhub-sdk/util',
+    'text!streamhub-ticker/main.css'],
+function($, FeedTickerView, Hub, View, Util, css) {
 
 	/**
 	 * TickerView is a view of Streamhub data that is structured as a horizontal ticker, similar to
