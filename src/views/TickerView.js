@@ -226,3 +226,4 @@ function($, FeedTickerView, Hub, View, Util, css) {
 	
 	return TickerView;
 });
+

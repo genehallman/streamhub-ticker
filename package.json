@@ -16,8 +16,5 @@
     "doc": "rm -rf docs && ./node_modules/jsdoc/jsdoc -c jsdoc.conf.json",
     "test": "open tests/index.html",
     "start": "./node_modules/http-server/bin/http-server"
-  },
-  "streamhub": {
-    "sampleImage": "https://drive.google.com/uc?id=0BwAX440-rUypRDU5ZVRraFprVHc"
   }
 }
