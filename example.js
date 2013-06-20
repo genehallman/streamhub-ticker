@@ -1,7 +1,5 @@
-define(function(require) {
-	var Hub = require('streamhub-sdk');
-	var View = require('streamhub-ticker/views/TickerView');
-
+define(['streamhub-sdk', 'streamhub-ticker/views/TickerView'],
+function(Hub, View) {
 	return function(el) {
 		var streams = Hub.StreamManager.create.livefyreStreams({
 		    network: "labs-t402.fyre.co",
@@ -18,7 +16,7 @@ define(function(require) {
 		});
 
 
-	        var view = new View({el: el});
+	    var view = new View({el: el});
 		
 		streams.bind(view.main).start();
 		feedStreams.bind(view.feed).start();

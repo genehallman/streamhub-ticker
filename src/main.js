@@ -1,6 +1,7 @@
-define(function(require) {
+define(['streamhub-ticker/views/TickerView', 'streamhub-ticker/views/FeedTickerView'],
+function(TickerView, FeedTickerView) {
     return {
-        TickerView: require('streamhub-ticker/views/TickerView'),
-        FeedTickerView: require('streamhub-ticker/views/FeedTickerView')
+        TickerView: TickerView,
+        FeedTickerView: FeedTickerView
     };
 });

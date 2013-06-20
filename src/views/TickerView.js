@@ -1,11 +1,14 @@
 /** @module TickerView */
 
-define(function(require) {
-    var FeedTickerView = require('streamhub-ticker/views/FeedTickerView');
-    var Hub = require('streamhub-sdk');
-    var View = require('streamhub-sdk/view');
-    var Util = require('streamhub-sdk/util');
-	
+define([
+    'streamhub-zepto',
+    'streamhub-ticker/views/FeedTickerView',
+    'streamhub-sdk',
+    'streamhub-sdk/view',
+    'streamhub-sdk/util',
+    'text!streamhub-ticker/main.css'],
+function($, FeedTickerView, Hub, View, Util, css) {
+
 	/**
 	 * TickerView is a view of Streamhub data that is structured as a horizontal ticker, similar to
 	 * television media's ticker, time based, LTR. When the feedCollection option is specified, the
@@ -31,6 +34,11 @@ define(function(require) {
         this.$el.addClass(opts.className || "hub-TickerView");
         this.$el.hide();
         this.$el.fadeIn();
+        this.includeCss = opts.includeCss == false ? false : true;
+        // Include CSS
+        if (this.includeCss) {
+            $('<style></style>').text(css).prependTo('head');
+        }
 
         var TickerContentAdder = {
             add: function(content, stream) {
@@ -82,7 +90,7 @@ define(function(require) {
 	      .attr('data-hub-contentid', item.id)
 	      .attr('data-hub-createdAt', item.createdAt)
 	      .attr('data-hub-source-id', item.source);
-	      
+	    
 	    if (itemMeta.eventType) {
 	        itemEl.attr('data-hub-event-type', itemMeta.eventType);
 	    }
@@ -146,7 +154,7 @@ define(function(require) {
 	    
 	    if (!this.paused && itemLeft >= 0 && diff >= 0) {
             this.scrollDiff = (this.scrollDiff || 0) + diff;
-            
+           
             if (!this.isScrolling) {
 		        var self = this;
                 this.isScrolling = true;
@@ -218,3 +226,4 @@ define(function(require) {
 	
 	return TickerView;
 });
+

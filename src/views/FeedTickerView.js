@@ -1,7 +1,7 @@
 /** @module FeedTickerView */
 
-define(function(require) {
-    var View = require('streamhub-sdk/view');
+define(['streamhub-zepto', 'streamhub-sdk/view'],
+function($, View) {
 
 	/**
 	 * FeedTickerView is a view of Streamhub data that is structured as a feed, above a TickerView.
@@ -69,10 +69,10 @@ define(function(require) {
 	    var origScroll = this.itemHolder.parent()[0].scrollHeight;
 	    if (index <= 0) {
 	        this.itemHolder.append(itemEl);
-	        itemEl.slideDown();
+	        itemEl.show();
 	    } else {
 	        var prevEl = $(this.childContent[keys[index-1]].el);
-	        itemEl.insertBefore(prevEl).slideDown();
+	        itemEl.insertBefore(prevEl).show();
 	    }
 	    this.itemHolder.parent().addClass('nonEmpty');
 
