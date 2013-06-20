@@ -14,7 +14,7 @@ streamhub-deck depends on [streamhub-sdk](https://github.com/livefyre/streamhub-
 
 Include streamhub-deck too.
 
-	<script src="http://cdn.livefyre.com/libs/apps/genehallman/streamhub-ticker/v2.0.1.build.3/streamhub-ticker.min.js"></script>
+	<script src="http://cdn.livefyre.com/libs/apps/genehallman/streamhub-ticker/v2.0.1.build.4/streamhub-ticker.min.js"></script>
 	
 Optionally, include some reasonable default CSS rules for StreamHub Content. This stylesheet is provided by the StreamHub SDK.
 
@@ -59,7 +59,7 @@ Optionally, include some reasonable default CSS rules for StreamHub Content. Thi
         tickerStreams.bind(tickerView.main).start();
         feedStreams.bind(tickerView.feed).start();
 
-You now have a Deck! See this all in action on [this jsfiddle](http://jsfiddle.net/Syetu/2/).
+You now have a Deck! See this all in action on [this jsfiddle](http://jsfiddle.net/Syetu/3/).
 
 
 ## Local Development
