@@ -5,14 +5,14 @@ function(Hub, View) {
 		    network: "labs-t402.fyre.co",
 		    environment: "t402.livefyre.com",
 		    siteId: "303827",
-		    articleId: 'gene_publish_0'
+		    articleId: 'labs_demo_nbc_baseball'
 		});
 	
 		var feedStreams = Hub.StreamManager.create.livefyreStreams({
 		    network: "labs-t402.fyre.co",
 		    environment: "t402.livefyre.com",
 		    siteId: "303827",
-		    articleId: 'feed_ticker_0'
+		    articleId: 'labs_demo_social_baseball'
 		});
 
 

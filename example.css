@@ -13,7 +13,7 @@
     padding:0;
     margin: 0;
     cursor: pointer;
-    width:115px;
+    width:250px;
     display:inline-block;
     vertical-align:bottom;
     white-space:normal;
@@ -21,7 +21,7 @@
 
 .hub-TickerView .hub-item .item-feed-view {
     height:400px;
-    width:100px;
+    width:235px;
     overflow-y:hidden;
     overflow-x:hidden;
     position:relative;
@@ -29,31 +29,32 @@
 
 .hub-TickerView .hub-item .item-content-view {
     height:100px;
-    width:100px;
+    width:230px;
     overflow:hidden;
-    background-color:white;
-    padding:0;
+    background-color:#ccc;
+    padding:3px;
     margin:0;
     vertical-align:top;
 }
 
 .hub-TickerView .hub-feed-item {
     height:100px;
-    width:100px;
+    width:235px;
     overflow:hidden;
     background-color:white;
-    padding:0;
-    margin:0;
+    padding:0px;
+    margin:3px;
     vertical-align:top;
     position:relative;
 }
 .hub-TickerView .hub-feed-item-holder {
     max-height:400px;
-    width:115px;
+    width:232px;
     position:absolute;
     bottom:0px;
     overflow-y:scroll;
     overflow-x:hidden;
+    margin-left:3px;
 }
 .hub-TickerView .hub-content {
     position:relative;
@@ -63,4 +64,13 @@
     position:absolute;
     bottom:0;
     left:0;
+}
+.hub-TickerView .content:hover .content-created-at {
+    display:none !important;
+}
+.hub-TickerView .content .content-body p {
+	margin-top:0px;
+}
+.hub-TickerView .content .content-body em {
+    display:none;
 }
