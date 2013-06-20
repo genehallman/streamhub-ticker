@@ -8,11 +8,11 @@ The quickest way to use streamhub-feed is to use the built version hosted on Liv
 
 ### Dependencies
 
-streamhub-deck depends on [streamhub-sdk](https://github.com/livefyre/streamhub-sdk). Ensure it's been included in your page.
+streamhub-ticker depends on [streamhub-sdk](https://github.com/livefyre/streamhub-sdk). Ensure it's been included in your page.
 
 	<script src="http://cdn.livefyre.com/libs/sdk/v1.0.1-build.147/streamhub-sdk.min.gz.js"></script>
 
-Include streamhub-deck too.
+Include streamhub-ticker too.
 
 	<script src="http://cdn.livefyre.com/libs/apps/genehallman/streamhub-ticker/v2.0.1.build.4/streamhub-ticker.min.js"></script>
 	
