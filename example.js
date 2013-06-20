@@ -1,7 +1,5 @@
-define(function(require) {
-	var Hub = require('streamhub-sdk');
-	var View = require('streamhub-ticker/views/TickerView');
-
+define(['streamhub-sdk', 'streamhub-ticker/views/TickerView'],
+function(Hub, View) {
 	return function(sdk, opts) {
         var view = new View({
             streams: Hub.Streams.forCollection($.extend({}, opts, {articleId: opts.articleId1}).start(),
