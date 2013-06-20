@@ -1,10 +1,11 @@
 define([
+    'streamhub-zepto',
     'jasmine',
     'streamhub-ticker/views/TickerView',
     'streamhub-sdk',
     '../MockStream',
     'jasmine-jquery'],
-function (jasmine, TickerView, Hub, MockStream) {
+function ($, jasmine, TickerView, Hub, MockStream) {
 describe('A TickerView', function () {
     it ("can have tests run", function () {
         expect(true).toBe(true);

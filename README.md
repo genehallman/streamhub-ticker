@@ -4,15 +4,15 @@ streamhub-ticker is a [StreamHub App](http://apps.livefyre.com) that that visual
 
 ## Getting Started
 
-The quickest way to use streamhub-feed is to use the built version hosted on Livefyre's CDN.
+The quickest way to use streamhub-ticker is to use the built version hosted on Livefyre's CDN.
 
 ### Dependencies
 
-streamhub-deck depends on [streamhub-sdk](https://github.com/livefyre/streamhub-sdk). Ensure it's been included in your page.
+streamhub-ticker depends on [streamhub-sdk](https://github.com/livefyre/streamhub-sdk). Ensure it's been included in your page.
 
 	<script src="http://cdn.livefyre.com/libs/sdk/v1.0.1-build.147/streamhub-sdk.min.gz.js"></script>
 
-Include streamhub-deck too.
+Include streamhub-ticker too.
 
 	<script src="http://cdn.livefyre.com/libs/apps/genehallman/streamhub-ticker/v2.0.1.build.4/streamhub-ticker.min.js"></script>
 	
@@ -64,7 +64,7 @@ You now have a Deck! See this all in action on [this jsfiddle](http://jsfiddle.n
 
 ## Local Development
 
-Instead of using a built version of streamhub-feed from Livefyre's CDN, you may wish to fork, develop on the repo locally, or include it in your existing JavaScript application.
+Instead of using a built version of streamhub-ticker from Livefyre's CDN, you may wish to fork, develop on the repo locally, or include it in your existing JavaScript application.
 
 Clone this repo
 
@@ -72,7 +72,7 @@ Clone this repo
 
 Development dependencies are managed by [npm](https://github.com/isaacs/npm), which you should install first.
 
-With npm installed, install streamhub-feed's dependencies. This will also download [Bower](https://github.com/bower/bower) and use it to install browser dependencies.
+With npm installed, install streamhub-ticker's dependencies. This will also download [Bower](https://github.com/bower/bower) and use it to install browser dependencies.
 
     cd streamhub-ticker
     npm install
