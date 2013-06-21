@@ -222,11 +222,6 @@ function($, FeedTickerView, Hub, View, Util, css) {
             300, function() {
 	        self.isScrolling = false;
         });
-	    //this.$el.animate({
-	    //    scrollLeft: this.$el.scrollLeft() + itemEl.position().left - Util.outerWidth(itemEl)
-	    //}, 300, function() {
-	    //   self.isScrolling = false;
-	    //});
 	    return itemEl;
 	};
 	
