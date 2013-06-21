@@ -149,9 +149,9 @@ function($, FeedTickerView, Hub, View, Util, css) {
 	    }
 	    var newScrollWidth = this.$el[0].scrollWidth;
 	    var diff = newScrollWidth - origScrollWidth;
-	    var scrollWindowWidth = Util.outerWidth(this.$el);
+	    //var scrollWindowWidth = Util.outerWidth(this.$el);
         var itemLeft = itemEl.position().left;
-	    
+
 	    if (!this.paused && itemLeft >= 0 && diff >= 0) {
             this.scrollDiff = (this.scrollDiff || 0) + diff;
            
@@ -159,15 +159,16 @@ function($, FeedTickerView, Hub, View, Util, css) {
 		        var self = this;
                 this.isScrolling = true;
 		        this.animator = function() {
-			        self.$el.animate({
-			            scrollLeft: self.$el.scrollLeft() + self.scrollDiff
-			        }, 300, function() {
-			           if (self.scrollDiff > 0) {
-			               setTimeout(self.animator, 1);
-			           } else {
-			               self.isScrolling = false;
-			           }
-			        });
+                    self.$el.animateScrollLeft(
+                        self.$el[0].scrollLeft + self.scrollDiff,
+                        300, function() {
+                        if (self.scrollDiff > 0) {
+                            setTimeout(self.animator, 1);
+                        } else {
+                            self.isScrolling = false;
+                        }
+                    });
+
 	                self.scrollDiff = 0;
 	            };
 	            this.animator();
@@ -215,15 +216,68 @@ function($, FeedTickerView, Hub, View, Util, css) {
 	    
 	    this.isScrolling = true;
 	    var self = this;
-	    	    
-	    this.$el.animate({
-	        scrollLeft: this.$el.scrollLeft() + itemEl.position().left - Util.outerWidth(itemEl)
-	    }, 300, function() {
-	       self.isScrolling = false;
-	    });
+
+        this.$el.animateScrollLeft(
+            this.$el[0].scrollLeft + itemEl.position().left - Util.outerWidth(itemEl),
+            300, function() {
+	        self.isScrolling = false;
+        });
+	    //this.$el.animate({
+	    //    scrollLeft: this.$el.scrollLeft() + itemEl.position().left - Util.outerWidth(itemEl)
+	    //}, 300, function() {
+	    //   self.isScrolling = false;
+	    //});
 	    return itemEl;
 	};
 	
+    /* Extend Zepto */
+    (function($, undefined) {
+        var interpolate = function (source, target, shift) {
+            return (source + (target - source) * shift);
+        };
+
+        var easing = function (pos) {
+            return (-Math.cos(pos * Math.PI) / 2) + .5;
+        };
+
+        var scroll = function(endX, duration, callback) {
+            endX = (typeof endX !== 'undefined') ? endX : 0;
+            duration = (typeof duration !== 'undefined') ? duration : 200;
+
+            if (duration === 0) {
+                this[0].scrollLeft = endX;
+                if (typeof callback === 'function') callback();
+                return;
+            }
+
+            var startX = this[0].scrollLeft,
+            startT = Date.now(),
+            finishT = startT + duration;
+
+            var self = this;
+            var animate = function() {
+                var now = Date.now(),
+                    shift = (now > finishT) ? 1 : (now - startT) / duration;
+
+                self[0].scrollLeft = interpolate(startX, endX, easing(shift));
+
+                if (now < finishT) {
+                    setTimeout(animate, 15);
+                }
+                else {
+                    if (typeof callback === 'function') callback();
+                }
+            };
+
+            animate();
+        };
+
+        $.fn.animateScrollLeft = function() {
+            scroll.apply(this, arguments);
+            return this;
+        };
+    })($);
+
 	return TickerView;
 });
 
