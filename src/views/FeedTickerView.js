@@ -1,6 +1,6 @@
 /** @module FeedTickerView */
 
-define(['streamhub-zepto', 'streamhub-sdk/view'],
+define(['jquery', 'streamhub-sdk/view'],
 function($, View) {
 
 	/**
